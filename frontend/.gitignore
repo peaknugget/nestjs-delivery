@@ -1,0 +1,37 @@
+# Next.js build output
+.next
+out
+
+# Node modules
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# dotenv
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OS
+.DS_Store
+
+# IDEs and editors
+.idea/
+.vscode/
+*.sublime-workspace
+
+# Test coverage
+coverage/
+
+# Misc
+*.pem
+*.pid
