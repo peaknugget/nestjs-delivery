@@ -1,3 +1,24 @@
+## 실행
+
+```bash
+
+docker compose down
+
+docker compose up  --build
+
+```
+
+## .env 환경변수 예
+```bash
+COMPOSE_PROJECT_NAME=nestjs-delivery
+
+PORT=3000
+DATABASE_URL=postgres://user:password@localhost:5432/mydb
+JWT_SECRET=your-secret-key
+```
+
+
+
 <p align="center"> 
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest 로고" /></a>
   <a href="https://nextjs.org/" target="blank" style="margin-left: 20px;"><img src="https://upload.wikimedia.org/wikipedia/commons/8/8e/Nextjs-logo.svg" width="120" alt="Next.js 로고" /></a>
