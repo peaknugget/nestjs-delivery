@@ -29,9 +29,9 @@ services:
 
 📌 설명:
 
-* `gateway`로 되어 있지만 실제 동작은 `user` 서비스를 실행하는 형태입니다.
-* `dockerfile` 경로와 `command`를 통해 `apps/user` 디렉토리의 개발 환경을 실행합니다.
-* 외부 접근을 위해 `3001` 포트를 열고, 내부 컨테이너는 3000 포트를 사용합니다.
+- `gateway`로 되어 있지만 실제 동작은 `user` 서비스를 실행하는 형태입니다.
+- `dockerfile` 경로와 `command`를 통해 `apps/user` 디렉토리의 개발 환경을 실행합니다.
+- 외부 접근을 위해 `3001` 포트를 열고, 내부 컨테이너는 3000 포트를 사용합니다.
 
 ---
 
@@ -40,17 +40,17 @@ services:
 보다 명확하게 `user` 서비스를 별도 정의한 예시는 다음과 같습니다:
 
 ```yaml
-  user:
-    build:
-      context: .
-      dockerfile: ./apps/user/Dockerfile
-      target: development
-    command: pnpm run start:dev user
-    ports:
-      - '3001:3000'
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+user:
+  build:
+    context: .
+    dockerfile: ./apps/user/Dockerfile
+    target: development
+  command: pnpm run start:dev user
+  ports:
+    - "3001:3000"
+  volumes:
+    - .:/usr/src/app
+    - /usr/src/app/node_modules
 ```
 
 📝 이처럼 `user`라는 이름으로 명시해두면 추후 gateway, auth 등 서비스와 구분이 명확해집니다.
@@ -86,10 +86,10 @@ COPY . .
 
 🔍 설명:
 
-* `node:alpine` 이미지를 사용해 가볍고 빠른 빌드 환경 제공
-* `WORKDIR`로 컨테이너 내 작업 위치 지정
-* 종속성 설치 전 필요한 설정 파일을 먼저 복사하여 **Docker 캐시 최적화**
-* 마지막에 전체 프로젝트 복사하여 NestJS 실행에 필요한 파일을 모두 포함
+- `node:alpine` 이미지를 사용해 가볍고 빠른 빌드 환경 제공
+- `WORKDIR`로 컨테이너 내 작업 위치 지정
+- 종속성 설치 전 필요한 설정 파일을 먼저 복사하여 **Docker 캐시 최적화**
+- 마지막에 전체 프로젝트 복사하여 NestJS 실행에 필요한 파일을 모두 포함
 
 ---
 
@@ -148,9 +148,8 @@ docker-compose up --build
 
 ### 📦 MSA 구조에서 서비스 분리와 통합의 핵심
 
-* 각 서비스는 독립적인 포트, 환경변수 설정, 실행 커맨드를 가짐
-* Dockerfile과 디렉토리를 구분하여 유지보수 편리함
-* `docker-compose.yml` 한 파일로 전체 서비스 관리 가능
+- 각 서비스는 독립적인 포트, 환경변수 설정, 실행 커맨드를 가짐
+- Dockerfile과 디렉토리를 구분하여 유지보수 편리함
+- `docker-compose.yml` 한 파일로 전체 서비스 관리 가능
 
 ---
-

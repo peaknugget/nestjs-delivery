@@ -2,8 +2,8 @@
 
 이번 강의에서는 NestJS 기반 배달 프로젝트에서 `User App`을 Docker 이미지로 만들기 위한 `Dockerfile`을 작성합니다. 개발 환경과 운영 환경을 분리하여, 안정적이고 일관된 배포 환경을 구성하는 것이 목표입니다.
 
-
 ##### ✅ Dockerfile
+
 ```dockerfile
 # 어떤 이미지를 사용할지
 FROM node:alpine AS development
@@ -27,8 +27,6 @@ RUN pnpm i
 COPY . .
 
 ```
-
-
 
 ---
 
@@ -118,12 +116,11 @@ CMD ["node", "dist/apps/user/main"]
 
 ### ✅ 요약
 
-| 단계     | 설명                                                |
-| ------ | ------------------------------------------------- |
-| 개발 빌드  | 의존성 설치 및 `apps/user` 앱 빌드 수행                      |
-| 운영 이미지 | 빌드 결과물만 복사하여 최소 환경 구성                             |
-| 명령어    | `pnpm start:dev user`, `node dist/apps/user/main` |
-
+| 단계        | 설명                                              |
+| ----------- | ------------------------------------------------- |
+| 개발 빌드   | 의존성 설치 및 `apps/user` 앱 빌드 수행           |
+| 운영 이미지 | 빌드 결과물만 복사하여 최소 환경 구성             |
+| 명령어      | `pnpm start:dev user`, `node dist/apps/user/main` |
 
 ---
 
@@ -131,4 +128,3 @@ CMD ["node", "dist/apps/user/main"]
 >
 > - `pnpm`은 빠른 설치 속도와 모노레포 지원에 강점을 가진 패키지 매니저입니다.
 > - NestJS + Docker 환경은 팀 개발과 배포 자동화에 매우 유리한 조합입니다.
-

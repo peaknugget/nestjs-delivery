@@ -78,10 +78,10 @@ $ mau deploy
 
 ## 참고 자료
 
-* [NestJS 공식 문서](https://docs.nestjs.com)
-* [NestJS 디스코드 채널](https://discord.gg/G7Qnnhy)
-* [NestJS 공식 강의](https://courses.nestjs.com)
-* [NestJS Devtools](https://devtools.nestjs.com)
-* [NestJS 기억 기억 기억](https://enterprise.nestjs.com)
-* [NestJS 공식 채용 게시판](https://jobs.nestjs.com)
-* [NestJS X (Twitter)](https://x.com/nestframework) | [LinkedIn](https://linkedin.com/company/nestjs)
+- [NestJS 공식 문서](https://docs.nestjs.com)
+- [NestJS 디스코드 채널](https://discord.gg/G7Qnnhy)
+- [NestJS 공식 강의](https://courses.nestjs.com)
+- [NestJS Devtools](https://devtools.nestjs.com)
+- [NestJS 기억 기억 기억](https://enterprise.nestjs.com)
+- [NestJS 공식 채용 게시판](https://jobs.nestjs.com)
+- [NestJS X (Twitter)](https://x.com/nestframework) | [LinkedIn](https://linkedin.com/company/nestjs)

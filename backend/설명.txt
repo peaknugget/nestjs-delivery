@@ -1,0 +1,68 @@
+🎈 .prettierrc 오류
+
+기존 파일의 줄바꿈 변환
+이미 작성된 파일이 CRLF로 저장되어 있다면, 다음 명령어를 실행해 한 번에 LF로 변환할 수 있습니다.
+
+bash
+복사
+편집
+npx prettier --write .
+
+
+
+
+
+{
+  "singleQuote": true,
+  "trailingComma": "all",
+  "endOfLine": "lf",
+
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ]
+  }
+}
+
+
+# 설치  : 
+
+# pnpm install class-validator class-transformer
+
+
+# @nestjs/config → 환경 변수 및 설정 파일을 관리하는 NestJS 모듈입니다.
+# joi → 객체의 유효성을 검사하는 데이터 검증 라이브러리입니다.
+# @nestjs/typeorm → NestJS에서 TypeORM을 쉽게 사용할 수 있도록 지원하는 모듈입니다.
+# typeorm → TypeScript 기반 ORM으로, 데이터베이스와 객체를 매핑하는 라이브러리입니다.
+# pg → PostgreSQL과 통신하기 위한 데이터베이스 드라이버입니다.
+
+$ pnpm i @nestjs/config joi @nestjs/typeorm typeorm pg
+
+
+
+
+
+(1) 연결 권한 (CONNECT)
+GRANT CONNECT ON DATABASE test TO nestjsnetflex;
+
+
+(2) 스키마에 대한 사용 권한 (기본 public 스키마 기준)
+GRANT USAGE ON SCHEMA public TO nestjsnetflex;
+
+
+(3) 모든 테이블에 대한 SELECT, INSERT, UPDATE, DELETE 권한
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO nestjsnetflex;
+
+
+📌 예시로 한 줄로 실행
+GRANT ALL PRIVILEGES ON DATABASE test TO nestjsnetflex;
+
+
+
+npm install --omit=dev
+
+echo "🚀 Restarting NestJS app with PM2..."
+pm2 restart nestjs-app || pm2 start dist/main.js --name nestjs-app --env production

@@ -1,3 +1,25 @@
+## 실행
+
+```bash
+
+docker compose down
+
+docker compose up  --build
+
+```
+
+## .env 환경변수 예
+```bash
+COMPOSE_PROJECT_NAME=nestjs-delivery
+
+PORT=3000
+DATABASE_URL=postgres://user:password@localhost:5432/mydb
+JWT_SECRET=your-secret-key
+```
+
+
+
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest 로고" /></a>
 </p>
@@ -76,12 +98,12 @@ $ mau deploy
 
 ## 참고 자료
 
-* [NestJS 공식 문서](https://docs.nestjs.com)
-* [NestJS 디스코드 채널](https://discord.gg/G7Qnnhy)
-* [NestJS 공식 강의](https://courses.nestjs.com)
-* [NestJS Devtools](https://devtools.nestjs.com)
-* [NestJS 기억 기억 기억](https://enterprise.nestjs.com)
-* [NestJS 공식 채용 게시판](https://jobs.nestjs.com)
-* [NestJS X (Twitter)](https://x.com/nestframework) | [LinkedIn](https://linkedin.com/company/nestjs)
+- [NestJS 공식 문서](https://docs.nestjs.com)
+- [NestJS 디스코드 채널](https://discord.gg/G7Qnnhy)
+- [NestJS 공식 강의](https://courses.nestjs.com)
+- [NestJS Devtools](https://devtools.nestjs.com)
+- [NestJS 기억 기억 기억](https://enterprise.nestjs.com)
+- [NestJS 공식 채용 게시판](https://jobs.nestjs.com)
+- [NestJS X (Twitter)](https://x.com/nestframework) | [LinkedIn](https://linkedin.com/company/nestjs)
 
 ---

@@ -10,7 +10,6 @@
   "monorepo": true,
   "root": "apps/user",
   "projects": {
-    
     "user": {
       "type": "application",
       "root": "apps/user",

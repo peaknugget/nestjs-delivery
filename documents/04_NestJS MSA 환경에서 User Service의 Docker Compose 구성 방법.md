@@ -54,7 +54,7 @@ services:
       postgres_user:
         condition: service_healthy
     ports:
-      - '3001:3000'
+      - "3001:3000"
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -66,7 +66,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
     ports:
-      - '6001:5432'
+      - "6001:5432"
     volumes:
       - ./postgres/user:/var/lib/postgresql/data
     healthcheck:
@@ -132,6 +132,6 @@ docker compose up
 - `Dockerfile`은 설정/의존성 복사를 분리하여 캐시 최적화
 - `docker-compose.yml`에 DB와 서비스를 함께 정의하고 healthcheck로 실행 순서 제어
 - `.dockerignore` 설정은 반드시 필요하며, 특히 pnpm 사용 시 중요
-- `volume`을 통해 node\_modules는 컨테이너 외부와 연동하여 관리
+- `volume`을 통해 node_modules는 컨테이너 외부와 연동하여 관리
 
 ---

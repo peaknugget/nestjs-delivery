@@ -15,7 +15,6 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
-      
 
   postgres_user:
     image: postgres:16
@@ -28,7 +27,7 @@ services:
     volumes:
       - ./postgres/user:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
       interval: 5s
       timeout: 5s
       retries: 10
