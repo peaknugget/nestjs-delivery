@@ -6,9 +6,36 @@ docker compose down
 
 docker compose up  --build
 
+
+
+```
+
+### -no-cache: Dockerfile 빌드시 중간 이미지 캐시 없이 무조건 새로 빌드합니다.
+
+```
+docker compose up --build --no-cache
+
+```
+
+##### ✅ 1. 신버전 (v2 이상) 사용 중일 경우
+
+```bash
+docker compose build --no-cache
+docker compose up
+
+##
+docker compose up --build --no-cache  ✅ (v2 이상에서 정상 작동)
+```
+
+##### ✅ 2. 구버전 (v1) docker-compose 사용해야 함
+
+```bash
+docker-compose build --no-cache
+docker-compose up
 ```
 
 ## .env 환경변수 예
+
 ```bash
 COMPOSE_PROJECT_NAME=nestjs-delivery
 
@@ -16,9 +43,6 @@ PORT=3000
 DATABASE_URL=postgres://user:password@localhost:5432/mydb
 JWT_SECRET=your-secret-key
 ```
-
-
-
 
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest 로고" /></a>

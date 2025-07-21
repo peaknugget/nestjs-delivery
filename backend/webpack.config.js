@@ -27,6 +27,7 @@ module.exports = function (options) {
       new webpack.ProvidePlugin({
         Buffer: ['buffer', 'Buffer'],
         process: 'process/browser',
+        crypto: 'crypto', // crypto-browserify를 사용하도록
       }),
     ],
   };

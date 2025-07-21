@@ -9,6 +9,7 @@ module.exports = {
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
+    "prettier"   // 가장 마지막에 넣어 Prettier와 충돌 방지
   ],
   root: true,
   env: {
