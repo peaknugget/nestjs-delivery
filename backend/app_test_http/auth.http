@@ -1,0 +1,23 @@
+#✅ Base64 인코딩 하는 법
+#echo -n "admin:1234" | base64
+
+
+
+### 회원가입 요청 - Basic Auth 방식
+POST http://localhost:3001/auth/register
+Authorization: Basic YWRtaW46MTIzNA==
+Content-Type: application/json
+
+{ 
+  "token":"YWRtaW46MTIzNA==",
+  "name": "홍길동",
+  "age": 30,
+  "profile": "백엔드 개발자"
+}
+
+
+###
+
+### 로그인 요청 (login)
+POST http://localhost:3001/auth/login
+Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
