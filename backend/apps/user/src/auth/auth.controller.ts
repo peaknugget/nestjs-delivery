@@ -28,5 +28,10 @@ export class AuthController {
 
   @Post('login')
   @UsePipes(ValidationPipe)
-  loginUser(@Authorization() token: string) {}
+  loginUser(@Authorization() token: string) {
+    if (token === null) {
+      throw new UnauthorizedException('토큰을 입력해주세요!');
+    }
+    return this.authService.login(token);
+  }
 }
