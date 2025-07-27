@@ -1,13 +1,16 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import Joi from 'joi';
+
+import * as Joi from 'joi';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
+        HTTP_PORT: Joi.number().required(),
         DB_URL: Joi.string().required(),
       }),
     }),
@@ -20,6 +23,8 @@ import Joi from 'joi';
       }),
       inject: [ConfigService],
     }),
+
+    ProductModule,
   ],
 })
 export class AppModule {}
