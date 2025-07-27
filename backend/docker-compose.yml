@@ -1,4 +1,4 @@
-#version: '3.1'
+version: '3.1'
 
 services:
   user:
@@ -15,7 +15,7 @@ services:
     ports:
       - '3001:3000'
     volumes:
-      - .:/usr/src/app
+      - ./apps/user:/usr/src/app/apps/user
       - /usr/src/app/node_modules
 
   postgres_user:
@@ -46,9 +46,12 @@ services:
         condition: service_healthy
     env_file:
       - ./apps/product/.env
+    ports:
+      - '3002:3000'  
     volumes:
-      - .:/usr/src/app
+      - ./apps/product:/usr/src/app/apps/product
       - /usr/src/app/node_modules
+
 
   postgres_product:
     image: postgres:16
