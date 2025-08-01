@@ -1,30 +1,21 @@
-# 어떤 이미지를 사용할지
 FROM node:alpine AS development
 
 WORKDIR /usr/src/app
 
-# package.json 복사해오기
+# PNPM 설치
+RUN corepack enable && corepack prepare pnpm@8.15.4 --activate
+
+# package.json, lock파일, 설정파일 복사
 COPY package*.json ./
 COPY pnpm-lock.yaml ./
 COPY tsconfig.json tsconfig.json
 COPY nest-cli.json nest-cli.json
 
-# PNPM 설치하기
-RUN npm i -g pnpm
-
-# Dependency 설치하기
-RUN pnpm i
-
-# 나머지 파일/폴더 복사해오기
-COPY apps/product apps/product
-#COPY libs libs
+# 의존성 설치
+RUN pnpm install
 
 # 전체 소스 복사
 COPY . .
 
-
-RUN pnpm build product
-
-
-# 커맨드 실행
-CMD ["pnpm", "start:dev", "product"]
+# 앱 실행
+CMD ["pnpm", "run", "start:dev", "product"]

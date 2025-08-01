@@ -13,7 +13,7 @@ services:
     env_file:
       - ./apps/user/.env
     ports:
-      - '3001:3000'
+      - '3001:3001'
     volumes:
       - ./apps/user:/usr/src/app/apps/user
       - /usr/src/app/node_modules
@@ -47,7 +47,7 @@ services:
     env_file:
       - ./apps/product/.env
     ports:
-      - '3002:3000'  
+      - '3002:3002'  
     volumes:
       - ./apps/product:/usr/src/app/apps/product
       - /usr/src/app/node_modules

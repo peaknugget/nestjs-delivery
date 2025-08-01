@@ -14,6 +14,8 @@ if (typeof global.crypto === 'undefined') {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.HTTP_PORT ?? 3001);
+  const port = process.env.HTTP_PORT ?? 3001;
+  await app.listen(port, '0.0.0.0');
+  console.log(`✅🎈 Server is running on http://localhost:${port}`);
 }
 bootstrap();

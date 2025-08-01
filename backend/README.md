@@ -1,5 +1,35 @@
 ## 실행
 
+### docker-compose-prod.yml 파일을 실행
+
+
+```bash
+docker-compose -f docker-compose-prod.yml up -d
+
+```
+
+-f docker-compose-prod.yml
+👉 해당 Compose 파일을 지정합니다.
+
+down
+👉 실행 중인 컨테이너, 네트워크 등을 종료하고 정리합니다. (컨테이너 삭제 포함)
+
+✅ 필요에 따라 옵션 추가 가능:
+명령어	설명
+
+```bash
+docker-compose -f docker-compose-prod.yml down --volumes	사용된 볼륨까지 삭제
+docker-compose -f docker-compose-prod.yml down --rmi all	이미지까지 삭제
+```
+
+
+
+
+
+---
+
+
+
 ```bash
 
 docker compose down
