@@ -1,0 +1,42 @@
+#version: '3.1'  # docker-compose -f docker-compose-order.yml up -d
+#1. docker-compose -f docker-compose-order.yml build --no-cache
+#2. docker-compose -f docker-compose-order.yml up -d --remove-orphans
+#실시간 로그 확인 docker-compose -f docker-compose-order.yml logs -f order
+
+services:
+
+  order:
+    build:
+      context: .
+      dockerfile: ./apps/order/Dockerfile
+      target: development
+    command: pnpm run start:dev order
+    depends_on:
+      mongo_order:
+        condition: service_healthy
+    env_file:
+      - ./apps/order/.env
+    ports:
+      - '3003:3003'  
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+
+  mongo_order:
+    image: mongo:8
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: mongo
+    ports:
+      - '6003:27017'
+    volumes:
+      - ./mongo/order:/data/lib
+    command: mongod --quiet --logpath /dev/null
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
