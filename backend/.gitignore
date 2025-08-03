@@ -64,3 +64,6 @@ dist
 **/node_modules
 
 **/postgres
+
+
+/mongo
