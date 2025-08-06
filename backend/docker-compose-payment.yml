@@ -1,0 +1,41 @@
+#version: '3.1'  # docker-compose -f docker-compose-payment.yml up -d
+#1. docker-compose -f docker-compose-payment.yml build --no-cache
+#2. docker-compose -f docker-compose-payment.yml up -d --remove-orphans
+#실시간 로그 확인 docker-compose -f docker-compose-payment.yml logs -f payment
+
+services:
+
+  payment:
+    build:
+      context: .
+      dockerfile: ./apps/payment/Dockerfile
+      target: development
+    command: pnpm run start:dev payment
+    depends_on:
+      postgres_payment:
+        condition: service_healthy
+    env_file:
+      - ./apps/payment/.env
+    ports:
+      - '3004:3004'  
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+
+  postgres_payment:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - '6004:5432'
+    volumes:
+      - ./postgres/payment:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
