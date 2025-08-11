@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { CreateOrderDto } from './dto/create-order.dto';
 
 @Injectable()
 export class OrderService {
-  async createOrder(token: string, body: any): Promise<any> {
+  async createOrder(createOrderDto: CreateOrderDto, token: string) {
     /// 1) 사용자 정보 가져오기
     /// 2) 주문 생성하기
     /// 3) 총 금액 계산하기
