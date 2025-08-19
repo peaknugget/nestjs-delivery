@@ -63,6 +63,7 @@ export class AuthService {
     };
   }
 
+  /// Bearer $token
   async parseBearerToken(rawToken: string, isRefreshToken: boolean) {
     /// Bearer token
     const basicSplit = rawToken.split(' ');

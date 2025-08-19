@@ -1,6 +1,6 @@
 #version: '3.1'  # docker-compose -f docker-compose-order.yml up -d
 #1. docker-compose -f docker-compose-order.yml build --no-cache
-#2. docker-compose -f docker-compose-order.yml up -d --remove-orphans
+#2. docker-compose -f docker-compose-order.yml -p nestjs-delivery-order  up -d --remove-orphans
 #실시간 로그 확인 docker-compose -f docker-compose-order.yml logs -f order
 
 services:

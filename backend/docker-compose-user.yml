@@ -1,6 +1,9 @@
 #version: '3.1'  # docker-compose -f docker-compose-user.yml up -d
 #1. docker-compose -f docker-compose-user.yml build --no-cache
-#2. docker-compose -f docker-compose-user.yml up -d --remove-orphans
+#2. docker-compose -f docker-compose-user.yml -p nestjs-delivery-user up -d --remove-orphans
+
+
+#멀티로그  : docker-compose -f docker-compose-user.yml -f docker-compose-order.yml logs -f user order
 
 
 services:

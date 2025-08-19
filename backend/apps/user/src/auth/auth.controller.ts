@@ -8,7 +8,12 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
-import { Authorization } from './decorator/authorization.decorator';
+import {
+  Authorization,
+  Authorization2,
+} from './decorator/authorization.decorator';
+import { MessagePattern, Payload } from '@nestjs/microservices';
+import { ParseBearerTokenDto } from './dto/parse-bearer-token.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -33,5 +38,13 @@ export class AuthController {
       throw new UnauthorizedException('토큰을 입력해주세요!');
     }
     return this.authService.login(token);
+  }
+
+  @MessagePattern({
+    cmd: 'parse_bearer_token',
+  })
+  @UsePipes(ValidationPipe)
+  parseBearerToken(@Payload() payload: ParseBearerTokenDto) {
+    return this.authService.parseBearerToken(payload.token, false);
   }
 }

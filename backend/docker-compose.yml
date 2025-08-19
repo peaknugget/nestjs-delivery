@@ -1,3 +1,7 @@
+# docker-compose -f docker-compose.yml build --no-cache
+# docker-compose -f docker-compose.yml up -d
+# docker-compose -f docker-compose.yml down
+# docker-compose -f docker-compose.yml logs -f
 version: '3.1'
 
 services:
@@ -17,7 +21,7 @@ services:
     volumes:
       - ./apps/user:/usr/src/app/apps/user
       - /usr/src/app/node_modules
-
+ 
   postgres_user:
     image: postgres:16
     environment:
