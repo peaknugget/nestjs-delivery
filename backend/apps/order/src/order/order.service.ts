@@ -2,11 +2,12 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
+import { USER_SERVICE } from '@app/common';
 
 @Injectable()
 export class OrderService {
   constructor(
-    @Inject('USER_SERVICE') private readonly userServiceClient: ClientProxy,
+    @Inject(USER_SERVICE) private readonly userServiceClient: ClientProxy,
   ) {}
 
   async createOrder(createOrderDto: CreateOrderDto, token: string) {
