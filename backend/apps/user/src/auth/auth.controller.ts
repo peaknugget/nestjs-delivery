@@ -3,6 +3,7 @@ import {
   Controller,
   Post,
   UnauthorizedException,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -12,8 +13,9 @@ import {
   Authorization,
   Authorization2,
 } from './decorator/authorization.decorator';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { MessagePattern, Payload, RpcException } from '@nestjs/microservices';
 import { ParseBearerTokenDto } from './dto/parse-bearer-token.dto';
+import { RpcInterceptor } from '@app/common/interceptor';
 
 @Controller('auth')
 export class AuthController {
@@ -47,6 +49,7 @@ export class AuthController {
     cmd: 'parse_bearer_token',
   })
   @UsePipes(ValidationPipe)
+  @UseInterceptors(RpcInterceptor)
   parseBearerToken(@Payload() payload: ParseBearerTokenDto) {
     return this.authService.parseBearerToken(payload.token, false);
   }

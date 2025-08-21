@@ -3,6 +3,7 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
 import { USER_SERVICE } from '@app/common';
+import { PaymentCancelledException } from './exception/payment-cancelled.exception';
 
 @Injectable()
 export class OrderService {
@@ -29,9 +30,23 @@ export class OrderService {
       this.userServiceClient.send({ cmd: 'parse_bearer_token' }, { token }),
     );
 
+    if (resp.status === 'error') {
+      throw new PaymentCancelledException(resp);
+    }
+
     console.log('=====================================================');
     console.log('resp', resp);
 
     // 2) User MS : 사용자 정보 가져오기
+    const userId = resp.data.sub;
+    const uResp = await lastValueFrom(
+      this.userServiceClient.send({ cmd: 'get_user_info' }, { userId }),
+    );
+
+    if (uResp.status === 'error') {
+      throw new PaymentCancelledException(uResp);
+    }
+
+    return uResp.data;
   }
 }
