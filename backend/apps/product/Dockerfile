@@ -21,6 +21,11 @@ COPY apps/product apps/product
 #COPY libs libs
 
 
+# devDependencies 포함 설치
+RUN pnpm install --frozen-lockfile --production=false
+
+
+
 RUN pnpm build product
 
 # 커맨드 실행

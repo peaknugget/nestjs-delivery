@@ -20,6 +20,9 @@ RUN pnpm i
 COPY apps/notification apps/notification
 #COPY libs libs
 
+# devDependencies 포함 설치
+RUN pnpm install --frozen-lockfile --production=false
+
 
 RUN pnpm build notification
 

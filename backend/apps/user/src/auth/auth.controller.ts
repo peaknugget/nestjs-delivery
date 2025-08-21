@@ -20,20 +20,23 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  @UsePipes(ValidationPipe)
+  //@UsePipes(ValidationPipe)
   registerUser(
     @Authorization() token: string,
     @Body() registerDto: RegisterDto,
   ) {
     if (token === null) {
-      throw new UnauthorizedException('토큰을 입력해주세요!');
+      throw new UnauthorizedException('토큰을 입력해주세요!!!');
     }
+
     return this.authService.register(token, registerDto);
   }
 
   @Post('login')
-  @UsePipes(ValidationPipe)
+  //@UsePipes(ValidationPipe)
   loginUser(@Authorization() token: string) {
+    console.log('로그인 시도');
+
     if (token === null) {
       throw new UnauthorizedException('토큰을 입력해주세요!');
     }

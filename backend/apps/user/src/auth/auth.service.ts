@@ -37,13 +37,13 @@ export class AuthService {
     const basicSplit = rawToken.split(' ');
 
     if (basicSplit.length !== 2) {
-      throw new BadRequestException('토큰 포맷이 잘못됐습니다!');
+      throw new BadRequestException('토큰 포맷이 잘못됐습니다 1!');
     }
 
     const [basic, token] = basicSplit;
 
     if (basic.toLowerCase() !== 'basic') {
-      throw new BadRequestException('토큰 포맷이 잘못됐습니다!');
+      throw new BadRequestException('토큰 포맷이 잘못됐습니다!!');
     }
 
     const decoded = Buffer.from(token, 'base64').toString('utf-8');

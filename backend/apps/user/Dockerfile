@@ -20,6 +20,10 @@ RUN pnpm i
 COPY apps/user apps/user
 #COPY libs libs
 
+# devDependencies 포함 설치
+RUN pnpm install --frozen-lockfile --production=false
+
+
 
 RUN pnpm build user
 

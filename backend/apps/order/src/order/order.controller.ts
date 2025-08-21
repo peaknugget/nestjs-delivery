@@ -8,7 +8,6 @@ import {
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
-//import { Authorization } from 'apps/user/src/auth/decorator/authorization.decorator';
 
 //pnpm i @nestjs/microservices
 @Controller('order')

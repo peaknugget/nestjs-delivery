@@ -20,6 +20,8 @@ RUN pnpm i
 COPY apps/payment apps/payment
 #COPY libs libs
 
+# devDependencies 포함 설치
+RUN pnpm install --frozen-lockfile --production=false
 
 RUN pnpm build payment
 

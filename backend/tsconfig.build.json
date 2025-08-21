@@ -2,9 +2,11 @@
   "extends": "./tsconfig.json",
   "exclude": ["node_modules", "test", "dist", "**/*spec.ts"],
   "compilerOptions": {
-  "baseUrl": ".",
-  "paths": {
-    "@app/*": ["libs/*/src"]   // ✅ libs 전체 인식
+    "baseUrl": ".",
+    "paths": {
+      "@app/common": ["libs/common/src"],
+      "@app/common/*": ["libs/common/src/*"],
+      "@app/*": ["libs/*/src"]
+    }
   }
-}
 }
