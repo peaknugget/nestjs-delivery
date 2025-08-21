@@ -7,6 +7,11 @@ module.exports = function (options) {
     devtool: 'source-map',
     resolve: {
       extensions: ['.ts', '.js', '.json'],
+      plugins: [
+        new TsconfigPathsPlugin({
+          configFile: path.resolve(__dirname, 'tsconfig.json'), // ✅ 루트 tsconfig.json 읽도록
+        }),
+      ],
       fallback: {
         crypto: require.resolve('crypto-browserify'),
         stream: require.resolve('stream-browserify'),

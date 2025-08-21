@@ -20,7 +20,7 @@ async function bootstrap() {
     transport: Transport.TCP,
     options: {
       host: '0.0.0.0',
-      port: parseInt(process.env.TCP_PORT) || 3001, // Order MS의 포트
+      port: parseInt(process.env.TCP_PORT) || 4001, // TCP는 별도 포트
     },
   });
 

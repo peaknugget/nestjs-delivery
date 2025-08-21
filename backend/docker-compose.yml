@@ -6,6 +6,9 @@ version: '3.1'
 
 services:
   user:
+    environment:
+      - TCP_PORT=4001
+      - HTTP_PORT=3001
     build:
       context: .
       dockerfile: ./apps/user/Dockerfile
@@ -17,7 +20,7 @@ services:
     env_file:
       - ./apps/user/.env
     ports:
-      - '3001:3001'
+      - '3001:3001' # HTTP만 호스트에 노출
     volumes:
       - ./apps/user:/usr/src/app/apps/user
       - /usr/src/app/node_modules
