@@ -18,8 +18,7 @@ RUN pnpm i
 
 # 나머지 파일/폴더 복사해오기
 COPY apps/order apps/order
-COPY libs/common libs/common
-#COPY libs libs
+COPY libs ./libs 
 
 # devDependencies 포함 설치
 RUN pnpm install --frozen-lockfile --production=false

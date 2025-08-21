@@ -2,6 +2,11 @@
 # docker-compose -f docker-compose.yml up -d
 # docker-compose -f docker-compose.yml down
 # docker-compose -f docker-compose.yml logs -f
+# docker compose down
+# docker compose build --no-cache
+# docker compose up --force-recreate
+
+
 version: '3.1'
 
 services:
@@ -23,7 +28,6 @@ services:
       - '3001:3001' # HTTP만 호스트에 노출
     volumes:
       - .:/usr/src/app           # ✅ 전체 마운트
-      - ./libs:/usr/src/app/libs   # libs/common 포함
       - /usr/src/app/node_modules
  
   postgres_user:
@@ -58,7 +62,6 @@ services:
       - '3002:3002'  
     volumes:
       - .:/usr/src/app           # ✅ 전체 마운트
-      - ./libs:/usr/src/app/libs   # libs/common 포함
       - /usr/src/app/node_modules
 
 
@@ -95,7 +98,6 @@ services:
       - '3003:3003'  
     volumes:
       - .:/usr/src/app
-      - ./libs:/usr/src/app/libs   # libs/common 포함
       - /usr/src/app/node_modules
 
 
@@ -132,7 +134,6 @@ services:
       - '3004:3004'  
     volumes:
       - .:/usr/src/app
-      - ./libs:/usr/src/app/libs   # libs/common 포함
       - /usr/src/app/node_modules
 
 
