@@ -22,7 +22,7 @@ export class ProductService {
   async createSamples() {
     const data = [
       {
-        name: '사과',
+        name: '사과!',
         price: 1000,
         description: '맛있는 청주사과',
         stock: 2,

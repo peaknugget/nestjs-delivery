@@ -1,6 +1,10 @@
 COMPOSE_PROJECT_NAME=nestjs-delivery-product
-HTTP_PORT=3002
+
 DB_URL=postgres://postgres:postgres@postgres_product:5432/postgres
+
+HTTP_PORT=3002
+TCP_PORT=4002
+
 
 JWT_SECRET=your-secret-key
 ACCESS_TOKEN_SECRET=your_access_token_secret
