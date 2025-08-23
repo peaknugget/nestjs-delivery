@@ -1,12 +1,7 @@
-
-
 DB_URL=postgres://postgres:postgres@postgres_payment:5432/postgres
-
-
-JWT_SECRET=your-secret-key
-ACCESS_TOKEN_SECRET=your_access_token_secret
-REFRESH_TOKEN_SECRET=your_refresh_token_secret
-
 
 HTTP_PORT=3004
 TCP_PORT=4004
+
+NOTIFICATION_HOST=3005
+NOTIFICATION_TCP_PORT=4005

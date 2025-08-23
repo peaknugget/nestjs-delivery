@@ -1,13 +1,11 @@
 COMPOSE_PROJECT_NAME=nestjs-delivery
-
-
 DB_URL="postgresql://postgres:postgres@postgres_user:5432/postgres"
+
+JWT_SECRET=your-secret-key
+ACCESS_TOKEN_SECRET=your_access_token_secret
+REFRESH_TOKEN_SECRET=your_refresh_token_secret
 
 HTTP_PORT=3001
 TCP_PORT=4001
 
 
-
-JWT_SECRET=your-secret-key
-ACCESS_TOKEN_SECRET=your_access_token_secret
-REFRESH_TOKEN_SECRET=your_refresh_token_secret
