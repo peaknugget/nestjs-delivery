@@ -2,21 +2,23 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
-import { PRODUCT_SERVICE, USER_SERVICE } from '@app/common';
+import { PAYMENT_SERVICE, PRODUCT_SERVICE, USER_SERVICE } from '@app/common';
 import { PaymentCancelledException } from './exception/payment-cancelled.exception';
 import { Product } from './entity/product.entity';
 import { Customer } from './entity/customer.entity';
 import { AddressDto } from './dto/address.dto';
-import { Order } from './entity/order.entity';
+import { Order, OrderStatus } from './entity/order.entity';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { PaymentDto } from './dto/payment.dto';
+import { PaymentFailedException } from './exception/payment-failed.exception';
 
 @Injectable()
 export class OrderService {
   constructor(
     @Inject(USER_SERVICE) private readonly userService: ClientProxy,
     @Inject(PRODUCT_SERVICE) private readonly productService: ClientProxy,
+    @Inject(PAYMENT_SERVICE) private readonly paymentService: ClientProxy,
 
     @InjectModel(Order.name)
     private readonly orderModel: Model<Order>,
@@ -50,7 +52,12 @@ export class OrderService {
     this.validatePaymentAmount(totalAmount, payment.amount);
 
     /// 5) 주문 생성하기 - 데이터베이스에 넣기
+    console.log('🎈🎈🎈🎈🎈🎈🎈🎈 5-1)주문 생성하기  🎈🎈🎈🎈🎈🎈🎈 ');
     const customer = this.createCustomer(user);
+    console.log(
+      '🎈🎈🎈🎈🎈🎈🎈🎈 5-2)주문 생성하기  🎈🎈🎈🎈🎈🎈🎈 ',
+      customer,
+    );
     const order = await this.createNewOrder(
       customer,
       products,
@@ -59,8 +66,16 @@ export class OrderService {
     );
 
     ////6) 결제 시도하기
-    /// 7) 주문 상태 업데이트하기
-    /// 8) 결과 반환하기
+    console.log('🎈🎈🎈🎈🎈🎈🎈🎈 6) 결제 시도하기 🎈🎈🎈🎈🎈🎈🎈 ');
+    const processPayment = await this.processPayment(
+      order._id.toString(),
+      payment,
+      user.email,
+    );
+
+    console.log('🎈🎈🎈🎈🎈🎈🎈🎈 결과 반환하기 🎈🎈🎈🎈🎈🎈🎈 ');
+    /// 7) 결과 반환하기
+    return this.orderModel.findById(order._id);
   }
 
   private async getUserFromToken(token: string) {
@@ -113,6 +128,7 @@ export class OrderService {
   }
 
   private validatePaymentAmount(totalA: number, totalB: number) {
+    console.log('totalA : ', totalA, ' , totalB : ', totalB);
     if (totalA !== totalB) {
       throw new PaymentCancelledException('결제하려는 금액이 변경됐습니다!');
     }
@@ -138,5 +154,42 @@ export class OrderService {
       deliveryAddress,
       payment,
     });
+  }
+
+  async processPayment(
+    orderId: string,
+    payment: PaymentDto,
+    userEmail: string,
+  ) {
+    try {
+      const resp = await lastValueFrom(
+        this.paymentService.send(
+          { cmd: 'make_payment' },
+          { ...payment, userEmail, orderId },
+        ),
+      );
+
+      const isPaid = resp.data.paymentStatus === 'Approved';
+      const orderStatus = isPaid
+        ? OrderStatus.paymentProcessed
+        : OrderStatus.paymentFailed;
+
+      if (orderStatus === OrderStatus.paymentFailed) {
+        throw new PaymentFailedException(resp.error);
+      }
+
+      await this.orderModel.findByIdAndUpdate(orderId, {
+        status: OrderStatus.paymentProcessed,
+      });
+
+      return resp;
+    } catch (e) {
+      if (e instanceof PaymentFailedException) {
+        await this.orderModel.findByIdAndUpdate(orderId, {
+          status: OrderStatus.paymentFailed,
+        });
+      }
+      throw e;
+    }
   }
 }

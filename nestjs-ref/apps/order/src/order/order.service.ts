@@ -135,7 +135,7 @@ export class OrderService implements OnModuleInit {
     })
   }
 
-  async processPayment(orderId: string, payment: PaymentDto, userEmail: string, metadata: Metadata) {
+  async processPayment(payment: PaymentDto, userEmail: string, metadata: Metadata) {
     try {
       const resp = await lastValueFrom(this.paymentService.makePayment({
         ...payment,

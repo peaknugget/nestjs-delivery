@@ -21,8 +21,8 @@ export class OrderController {
     @Authorization() token: string,
     @Body() createOrderDto: CreateOrderDto,
   ) {
-    console.log('1.createOrderDto   token:', createOrderDto);
-    console.log('2.createOrderDto   CreateOrderDto:', createOrderDto);
+    // console.log('1.createOrderDto   token:', createOrderDto);
+    // console.log('2.createOrderDto   CreateOrderDto:', createOrderDto);
     return this.orderService.createOrder(createOrderDto, token);
   }
 }

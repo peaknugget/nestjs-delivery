@@ -5,7 +5,7 @@ import * as Joi from 'joi';
 import { OrderModule } from './order/order.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { PRODUCT_SERVICE, USER_SERVICE } from '@app/common';
+import { PAYMENT_SERVICE, PRODUCT_SERVICE, USER_SERVICE } from '@app/common';
 
 @Module({
   imports: [
@@ -18,6 +18,8 @@ import { PRODUCT_SERVICE, USER_SERVICE } from '@app/common';
         DB_URL: Joi.string().required(),
         PRODUCT_HOST: Joi.string().required(), // ✅ 추가
         PRODUCT_TCP_PORT: Joi.number().required(), // ✅ 추가
+        PAYMENT_HOST: Joi.string().required(), // ✅ 추가
+        PAYMENT_TCP_PORT: Joi.number().required(), // ✅ 추가
       }),
     }),
     MongooseModule.forRootAsync({
@@ -47,6 +49,18 @@ import { PRODUCT_SERVICE, USER_SERVICE } from '@app/common';
             options: {
               host: configService.getOrThrow('PRODUCT_HOST'),
               port: configService.getOrThrow('PRODUCT_TCP_PORT'),
+            },
+          }),
+          inject: [ConfigService],
+        },
+
+        {
+          name: PAYMENT_SERVICE,
+          useFactory: (configService: ConfigService) => ({
+            transport: Transport.TCP,
+            options: {
+              host: configService.getOrThrow('PAYMENT_HOST'),
+              port: configService.getOrThrow('PAYMENT_TCP_PORT'),
             },
           }),
           inject: [ConfigService],
