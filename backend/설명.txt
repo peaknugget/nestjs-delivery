@@ -1,4 +1,21 @@
 
+리눅스 셀에서 Base64 인코딩 방법
+```
+   echo -n "test15@gmail.com:1111" | base64
+   토큰 생성  dGVzdDE1QGdtYWlsLmNvbToxMTEx
+```
+
+
+# PowerShell에서 Base64 인코딩 방법
+```
+$Text = "test15@gmail.com:1111"
+$Bytes = [System.Text.Encoding]::UTF8.GetBytes($Text)
+$Encoded = [System.Convert]::ToBase64String($Bytes)
+$Encoded
+
+```
+
+
 
 도커 다시 빌드:
 

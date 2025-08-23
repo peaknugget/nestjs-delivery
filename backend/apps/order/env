@@ -1,5 +1,5 @@
 COMPOSE_PROJECT_NAME=nestjs-delivery-product
-HTTP_PORT=3003
+
 DB_URL=mongodb://mongo:mongo@mongo_order:27017/order?authSource=admin&retryWrites=true&w=majority
 
 #로컬접속 
@@ -9,6 +9,10 @@ JWT_SECRET=your-secret-key
 ACCESS_TOKEN_SECRET=your_access_token_secret
 REFRESH_TOKEN_SECRET=your_refresh_token_secret
 
+HTTP_PORT=3003
+TCP_PORT=4003
 
-USER_HOST=user
+
 USER_TCP_PORT=3001
+USER_HOST=user
+
