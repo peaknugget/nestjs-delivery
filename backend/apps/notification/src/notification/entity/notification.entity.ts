@@ -35,4 +35,8 @@ export class Notification extends Document {
   status: NotificationStatus;
 }
 
+// Document 타입 별도로 선언
+export type NotificationDocument = Notification & Document;
+
+// Schema 생성
 export const NotificationSchema = SchemaFactory.createForClass(Notification);

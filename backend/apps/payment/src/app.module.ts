@@ -26,6 +26,7 @@ import { NOTIFICATION_SERVICE } from '@app/common';
       inject: [ConfigService],
     }),
 
+    // NOTIFICATION_SERVICE microservice client  모듈
     ClientsModule.registerAsync({
       clients: [
         {

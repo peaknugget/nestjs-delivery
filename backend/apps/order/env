@@ -1,4 +1,3 @@
-COMPOSE_PROJECT_NAME=nestjs-delivery-product
 
 DB_URL=mongodb://mongo:mongo@mongo_order:27017/order?authSource=admin&retryWrites=true&w=majority
 
@@ -8,6 +7,17 @@ DB_URL=mongodb://mongo:mongo@mongo_order:27017/order?authSource=admin&retryWrite
 HTTP_PORT=3003
 TCP_PORT=4003
 
-USER_TCP_PORT=3001
+
+
+
 USER_HOST=user
+USER_TCP_PORT=4001
+
+PRODUCT_HOST=product
+PRODUCT_TCP_PORT=4002
+
+
+PAYMENT_HOST=payment
+PAYMENT_TCP_PORT=4004
+
 

@@ -18,6 +18,8 @@ export class PaymentController {
   @UsePipes(new ValidationPipe())
   @UseInterceptors(RpcInterceptor)
   async makePayment(@Payload() payload: MakePaymentDto) {
+    console.log('🔖PaymentController  makePayment', payload);
+
     return this.paymentService.makePayment(payload);
   }
 }

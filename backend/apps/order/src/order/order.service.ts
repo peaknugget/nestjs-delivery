@@ -162,12 +162,15 @@ export class OrderService {
     userEmail: string,
   ) {
     try {
+      console.log('🔖payment 에 메시지 전송 :시작 ');
       const resp = await lastValueFrom(
         this.paymentService.send(
           { cmd: 'make_payment' },
           { ...payment, userEmail, orderId },
         ),
       );
+
+      console.log('🔖payment 에 메시지 전송 :끝  ');
 
       const isPaid = resp.data.paymentStatus === 'Approved';
       const orderStatus = isPaid
@@ -184,6 +187,8 @@ export class OrderService {
 
       return resp;
     } catch (e) {
+      console.log('🤬 processPayment  에러: ', e);
+
       if (e instanceof PaymentFailedException) {
         await this.orderModel.findByIdAndUpdate(orderId, {
           status: OrderStatus.paymentFailed,
@@ -191,5 +196,9 @@ export class OrderService {
       }
       throw e;
     }
+  }
+
+  changeOrderStatus(orderId: string, status: OrderStatus) {
+    return this.orderModel.findByIdAndUpdate(orderId, { status });
   }
 }
