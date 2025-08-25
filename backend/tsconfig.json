@@ -18,6 +18,9 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
+      "@app/*": [
+        "libs/*/src"
+      ],
       "@app/common": [
         "libs/common/src",
         "libs/common/src"
@@ -25,8 +28,7 @@
       "@app/common/*": [
         "libs/common/src/*",
         "libs/common/src/*"
-      ],
-      "@app/*": ["libs/*/src"] 
+      ]
     }
   }
 }
