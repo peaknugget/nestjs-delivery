@@ -17,7 +17,7 @@ RUN npm i -g pnpm
 RUN pnpm i
 
 # 나머지 파일/폴더 복사해오기
-COPY apps/user apps/user
+COPY apps/gateway apps/gateway
 COPY libs ./libs 
 
 # devDependencies 포함 설치
@@ -25,7 +25,7 @@ RUN pnpm install --frozen-lockfile --production=false
 
 
 
-RUN pnpm build user
+RUN pnpm build gateway
 
 # 커맨드 실행
 CMD ["pnpm", "start:dev", "gateway"]

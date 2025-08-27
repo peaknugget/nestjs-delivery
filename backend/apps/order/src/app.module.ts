@@ -68,6 +68,8 @@ import { PAYMENT_SERVICE, PRODUCT_SERVICE, USER_SERVICE } from '@app/common';
       ],
       isGlobal: true,
     }),
+
+    
     OrderModule,
   ],
 })
