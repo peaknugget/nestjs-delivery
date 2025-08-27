@@ -26,9 +26,8 @@ async function bootstrap() {
 
   await app.startAllMicroservices();
 
-  const port = process.env.HTTP_PORT ?? 3001;
-  await app.listen(port, '0.0.0.0');
-
-  console.log(`✅🎈 Server is running on http://localhost:${port}`);
+  //const port = process.env.HTTP_PORT ?? 3001;
+  //await app.listen(port, '0.0.0.0');
+  //console.log(`✅🎈 Server is running on http://localhost:${port}`);
 }
 bootstrap();

@@ -37,8 +37,8 @@ services:
         condition: service_healthy
     env_file:
       - ./apps/user/.env
-    ports:
-      - '3001:3001' # HTTP만 호스트에 노출
+    #ports:
+      #- '3001:3001' # HTTP만 호스트에 노출
     volumes:
       - .:/usr/src/app           # ✅ 전체 마운트
       - /usr/src/app/node_modules
@@ -74,8 +74,8 @@ services:
         condition: service_healthy
     env_file:
       - ./apps/product/.env
-    ports:
-      - '3002:3002'  
+    # ports:
+    #   - '3002:3002'  
     volumes:
       - .:/usr/src/app           # ✅ 전체 마운트
       - /usr/src/app/node_modules
@@ -110,8 +110,8 @@ services:
         condition: service_healthy
     env_file:
       - ./apps/order/.env
-    ports:
-      - '3003:3003'  
+    # ports:
+    #   - '3003:3003'  
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -146,8 +146,8 @@ services:
         condition: service_healthy
     env_file:
       - ./apps/payment/.env
-    ports:
-      - '3004:3004'  
+    # ports:
+    #   - '3004:3004'  
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -184,8 +184,8 @@ services:
         condition: service_healthy
     env_file:
       - ./apps/notification/.env
-    ports:
-      - '3005:3005'  
+    # ports:
+    #   - '3005:3005'  
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
