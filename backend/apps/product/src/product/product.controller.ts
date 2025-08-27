@@ -15,15 +15,11 @@ import { RpcInterceptor } from '@app/common/interceptor';
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
-  @Get('test')
-  test() {
-    console.log('🎈test');
-    return { message: '✅ API 정상 작동 중입니다!' };
-  }
-
-  @Post('sample')
+  @MessagePattern({ cmd: 'create_samples' })
+  @UsePipes(ValidationPipe)
+  @UseInterceptors(RpcInterceptor)
   createSamples() {
-    console.log('🎈createSamples');
+    console.log('🎈product microservice Controller  createSamples');
     return this.productService.createSamples();
   }
 
