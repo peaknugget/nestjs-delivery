@@ -14,23 +14,12 @@ import { RpcInterceptor } from '@app/common';
 import { DeliveryStartedDto } from './dto/delivery-started.dto';
 import { OrderStatus } from './entity/order.entity';
 import { Authorization } from '@app/common/decorator/authorization.decorator';
+import { create } from 'domain';
 
 //pnpm i @nestjs/microservices
 @Controller('order')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
-
-  @Post()
-  @UsePipes(ValidationPipe)
-  async createOrder(
-    @Authorization()
-    token: string,
-    @Body() createOrderDto: CreateOrderDto,
-  ) {
-    // console.log('1.createOrderDto   token:', createOrderDto);
-    // console.log('2.createOrderDto   CreateOrderDto:', createOrderDto);
-    return this.orderService.createOrder(createOrderDto, token);
-  }
 
   @EventPattern({ cmd: 'delivery_started' })
   @UseInterceptors(RpcInterceptor)
@@ -41,5 +30,14 @@ export class OrderController {
       payload.id,
       OrderStatus.deliveryStarted,
     );
+  }
+
+  @MessagePattern({ cmd: 'create_order' })
+  async createOrder(@Payload() createOrderDto: CreateOrderDto) {
+    console.log(
+      '2.microService OrderController createOrder   token:',
+      createOrderDto,
+    );
+    return this.orderService.createOrder(createOrderDto);
   }
 }
