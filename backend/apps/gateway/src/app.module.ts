@@ -32,8 +32,8 @@ import { BearerTokenMiddleware } from './auth/middleware/bearer-token.middleware
           useFactory: (configService: ConfigService) => ({
             transport: Transport.TCP,
             options: {
-              host: configService.getOrThrow<string>('USER_HOST'),
-              port: configService.getOrThrow<number>('USER_TCP_PORT'),
+              host: 'redis',
+              port: 6379,
             },
           }),
           inject: [ConfigService],
@@ -44,8 +44,8 @@ import { BearerTokenMiddleware } from './auth/middleware/bearer-token.middleware
           useFactory: (configService: ConfigService) => ({
             transport: Transport.TCP,
             options: {
-              host: configService.getOrThrow('PRODUCT_HOST'),
-              port: configService.getOrThrow('PRODUCT_TCP_PORT'),
+              host: 'redis',
+              port: 6379,
             },
           }),
           inject: [ConfigService],
@@ -56,8 +56,8 @@ import { BearerTokenMiddleware } from './auth/middleware/bearer-token.middleware
           useFactory: (configService: ConfigService) => ({
             transport: Transport.TCP,
             options: {
-              host: configService.getOrThrow('ORDER_HOST'),
-              port: configService.getOrThrow('ORDER_TCP_PORT'),
+              host: 'redis',
+              port: 6379,
             },
           }),
           inject: [ConfigService],

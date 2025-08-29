@@ -33,10 +33,10 @@ import { PAYMENT_SERVICE, PRODUCT_SERVICE, USER_SERVICE } from '@app/common';
         {
           name: USER_SERVICE,
           useFactory: (configService: ConfigService) => ({
-            transport: Transport.TCP,
+            transport: Transport.REDIS,
             options: {
-              host: configService.getOrThrow<string>('USER_HOST'),
-              port: configService.getOrThrow<number>('USER_TCP_PORT'),
+              host: 'redis',
+              port: 6379,
             },
           }),
           inject: [ConfigService],
@@ -45,10 +45,10 @@ import { PAYMENT_SERVICE, PRODUCT_SERVICE, USER_SERVICE } from '@app/common';
         {
           name: PRODUCT_SERVICE, // ✅ 추가
           useFactory: (configService: ConfigService) => ({
-            transport: Transport.TCP,
+            transport: Transport.REDIS,
             options: {
-              host: configService.getOrThrow('PRODUCT_HOST'),
-              port: configService.getOrThrow('PRODUCT_TCP_PORT'),
+              host: 'redis',
+              port: 6379,
             },
           }),
           inject: [ConfigService],
@@ -57,10 +57,10 @@ import { PAYMENT_SERVICE, PRODUCT_SERVICE, USER_SERVICE } from '@app/common';
         {
           name: PAYMENT_SERVICE,
           useFactory: (configService: ConfigService) => ({
-            transport: Transport.TCP,
+            transport: Transport.REDIS,
             options: {
-              host: configService.getOrThrow('PAYMENT_HOST'),
-              port: configService.getOrThrow('PAYMENT_TCP_PORT'),
+              host: 'redis',
+              port: 6379,
             },
           }),
           inject: [ConfigService],

@@ -208,3 +208,9 @@ services:
       retries: 10
       start_period: 5s
     
+  redis:
+    image: redis:7
+    #command: ["redis-server", "--requirepass", "1234"] #비밀번호
+    ports:
+      - "6379:6379"
+
