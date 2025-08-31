@@ -9,10 +9,9 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
-import { MessagePattern, Payload, RpcException } from '@nestjs/microservices';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 import { ParseBearerTokenDto } from './dto/parse-bearer-token.dto';
 import { RpcInterceptor } from '@app/common/interceptor';
-import { Authorization } from '@app/common/decorator/authorization.decorator';
 import { LoginDto } from './dto/login.dto';
 
 @Controller('auth')
