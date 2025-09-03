@@ -1,7 +1,5 @@
 import {
-  Body,
   Controller,
-  Post,
   UnauthorizedException,
   UseInterceptors,
   UsePipes,
@@ -13,24 +11,25 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 import { ParseBearerTokenDto } from './dto/parse-bearer-token.dto';
 import { RpcInterceptor } from '@app/common/interceptor';
 import { LoginDto } from './dto/login.dto';
+import { UserMicroservice } from '@app/common';
 
 @Controller('auth')
-export class AuthController {
+export class AuthControlle implements UserMicroservice.AuthServiceController {
   constructor(private readonly authService: AuthService) {}
 
-  @MessagePattern({
-    cmd: 'parse_bearer_token',
-  })
-  @UsePipes(ValidationPipe)
-  @UseInterceptors(RpcInterceptor)
-  parseBearerToken(@Payload() payload: ParseBearerTokenDto) {
+  // @MessagePattern({
+  //   cmd: 'parse_bearer_token',
+  // })
+  // @UsePipes(ValidationPipe)
+  // @UseInterceptors(RpcInterceptor)
+  parseBearerToken(payload: UserMicroservice.ParseBearerTokenRequest) {
     return this.authService.parseBearerToken(payload.token, false);
   }
 
-  @MessagePattern({
-    cmd: 'register',
-  })
-  registerUser(@Payload() registerDto: RegisterDto) {
+  // @MessagePattern({
+  //   cmd: 'register',
+  // })
+  registerUser(registerDto: UserMicroservice.RegisterUserRequest) {
     console.log(' * microService user registerUser  token:', registerDto.token);
 
     const { token } = registerDto;
@@ -41,12 +40,11 @@ export class AuthController {
     return this.authService.register(token, registerDto);
   }
 
-  @MessagePattern({
-    cmd: 'login',
-  })
-  loginUser(@Payload() loginDto: LoginDto) {
+  // @MessagePattern({
+  //   cmd: 'login',
+  // })
+  loginUser(loginDto: UserMicroservice.LoginUserRequest) {
     console.log('로그인 시도 !!:', loginDto);
-
     const { token } = loginDto;
 
     if (token === null) {

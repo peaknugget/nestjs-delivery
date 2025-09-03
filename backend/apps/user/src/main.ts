@@ -3,6 +3,10 @@ import { AppModule } from './app.module';
 import * as crypto from 'crypto';
 import { randomUUID } from 'crypto';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { UserMicroservice } from '@app/common';
+import { join } from 'path';
+import { ConfigService } from '@nestjs/config';
+
 if (!globalThis.crypto) {
   // node 환경에 전역 crypto 객체 수동 주입
   globalThis.crypto = crypto as any;
@@ -15,22 +19,17 @@ if (typeof global.crypto === 'undefined') {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
 
   app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.RMQ,
+    transport: Transport.GRPC,
     options: {
-      urls: ['amqp://rabbitmq:5672'],
-      queue: 'user_queue',
-      queueOptions: {
-        durable: true,
-      },
+      package: UserMicroservice.protobufPackage,
+      protoPath: join(process.cwd(), 'proto/user.proto'),
+      url: configService.getOrThrow('GRPC_URL'),
     },
   });
 
   await app.startAllMicroservices();
-
-  //const port = process.env.HTTP_PORT ?? 3001;
-  //await app.listen(port, '0.0.0.0');
-  //console.log(`✅🎈 Server is running on http://localhost:${port}`);
 }
 bootstrap();
