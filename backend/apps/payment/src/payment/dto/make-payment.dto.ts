@@ -10,8 +10,7 @@ export class MakePaymentDto {
   paymentMethod: PaymentMethod;
 
   @IsNotEmpty()
-  @IsNotEmpty()
-  paymentName: number;
+  paymentName: string;
 
   @IsString()
   @IsNotEmpty()

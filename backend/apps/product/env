@@ -7,4 +7,4 @@ TCP_PORT=4002
 
 
 
-GRPC_URL=product:3002
+GRPC_URL=product:3001

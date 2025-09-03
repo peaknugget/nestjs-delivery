@@ -9,17 +9,24 @@ import { PaymentService } from './payment.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { RpcInterceptor } from '@app/common/interceptor';
 import { MakePaymentDto } from './dto/make-payment.dto';
+import { PaymentMicroservice } from '@app/common';
+import { PaymentMethod } from './entity/payment.entity';
 
 @Controller()
-export class PaymentController {
+export class PaymentController
+  implements PaymentMicroservice.PaymentServiceController
+{
   constructor(private readonly paymentService: PaymentService) {}
 
-  @MessagePattern({ cmd: 'make_payment' })
-  @UsePipes(new ValidationPipe())
-  @UseInterceptors(RpcInterceptor)
-  async makePayment(@Payload() payload: MakePaymentDto) {
+  // @MessagePattern({ cmd: 'make_payment' })
+  // @UsePipes(new ValidationPipe())
+  // @UseInterceptors(RpcInterceptor)
+  async makePayment(payload: PaymentMicroservice.MakePaymentRequest) {
     console.log('🔖PaymentController  makePayment', payload);
 
-    return this.paymentService.makePayment(payload);
+    return this.paymentService.makePayment({
+      ...payload,
+      paymentMethod: payload.paymentMethod as PaymentMethod,
+    });
   }
 }
