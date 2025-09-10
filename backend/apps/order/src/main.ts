@@ -10,6 +10,7 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
 
   app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.GRPC,
     options: {
       package: OrderMicroservice.protobufPackage,
       protoPath: join(process.cwd(), 'proto/order.proto'),

@@ -41,6 +41,7 @@ import { join } from 'path';
         {
           name: USER_SERVICE,
           useFactory: (configService: ConfigService) => ({
+            transport: Transport.GRPC,
             options: {
               package: UserMicroservice.protobufPackage,
               protoPath: join(process.cwd(), 'proto/user.proto'),
@@ -53,6 +54,7 @@ import { join } from 'path';
         {
           name: PRODUCT_SERVICE, // ✅ 추가
           useFactory: (configService: ConfigService) => ({
+            transport: Transport.GRPC,
             options: {
               package: ProductMicroservice.protobufPackage,
               protoPath: join(process.cwd(), 'proto/product.proto'),
@@ -65,6 +67,7 @@ import { join } from 'path';
         {
           name: PAYMENT_SERVICE,
           useFactory: (configService: ConfigService) => ({
+            transport: Transport.GRPC,
             options: {
               package: PaymentMicroservice.protobufPackage,
               protoPath: join(process.cwd(), 'proto/payment.proto'),
