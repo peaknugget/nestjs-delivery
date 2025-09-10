@@ -17,7 +17,7 @@ export class UserController implements UserMicroservice.UserServiceController {
   // @MessagePattern({ cmd: 'get_user_info' })
   // @UsePipes(ValidationPipe)
   // @UseInterceptors(RpcInterceptor)
-  getUserInfo(data: UserMicroservice.GetUserInfoRequest) {
-    return this.userService.getUserById(data.userId);
+  getUserInfo(request: UserMicroservice.GetUserInfoRequest) {
+    return this.userService.getUserById(request.userId);
   }
 }

@@ -1,10 +1,11 @@
 DB_URL=postgres://postgres:postgres@postgres_payment:5432/postgres
 
-HTTP_PORT=3004
-TCP_PORT=4004
+HTTP_PORT=3001
+TCP_PORT=3001
 
-NOTIFICATION_HOST=3005
-NOTIFICATION_TCP_PORT=4005
+NOTIFICATION_HOST=notification
+NOTIFICATION_TCP_PORT=3001
 
 
 GRPC_URL=payment:3001
+Notification_GRPC_URL=notification:3001

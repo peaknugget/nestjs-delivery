@@ -14,7 +14,7 @@ export class CreateOrderDto implements UserMeta {
 
   @IsString()
   @IsNotEmpty()
-  token: string;
+  token?: string;
 
   @IsArray()
   @IsString({ each: true })

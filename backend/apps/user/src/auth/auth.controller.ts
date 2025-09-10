@@ -22,30 +22,30 @@ export class AuthControlle implements UserMicroservice.AuthServiceController {
   // })
   // @UsePipes(ValidationPipe)
   // @UseInterceptors(RpcInterceptor)
-  parseBearerToken(payload: UserMicroservice.ParseBearerTokenRequest) {
-    return this.authService.parseBearerToken(payload.token, false);
+  parseBearerToken(request: UserMicroservice.ParseBearerTokenRequest) {
+    return this.authService.parseBearerToken(request.token, false);
   }
 
   // @MessagePattern({
   //   cmd: 'register',
   // })
-  registerUser(registerDto: UserMicroservice.RegisterUserRequest) {
-    console.log(' * microService user registerUser  token:', registerDto.token);
+  registerUser(request: UserMicroservice.RegisterUserRequest) {
+    console.log(' * microService user registerUser  token:', request.token);
 
-    const { token } = registerDto;
+    const { token } = request;
     if (token === null) {
       throw new UnauthorizedException('토큰을 입력해주세요!!!');
     }
 
-    return this.authService.register(token, registerDto);
+    return this.authService.register(token, request);
   }
 
   // @MessagePattern({
   //   cmd: 'login',
   // })
-  loginUser(loginDto: UserMicroservice.LoginUserRequest) {
-    console.log('로그인 시도 !!:', loginDto);
-    const { token } = loginDto;
+  loginUser(request: UserMicroservice.LoginUserRequest) {
+    console.log('로그인 시도 !!:', request);
+    const { token } = request;
 
     if (token === null) {
       throw new UnauthorizedException('토큰을 입력해주세요!');

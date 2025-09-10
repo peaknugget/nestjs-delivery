@@ -24,9 +24,9 @@ services:
 
 
   user:
-    environment:
-      - TCP_PORT=4001
-      - HTTP_PORT=3001
+    # environment:
+    #   - TCP_PORT=4001
+    #   - HTTP_PORT=3001
     build:
       context: .
       dockerfile: ./apps/user/Dockerfile
@@ -61,9 +61,9 @@ services:
       start_period: 5s
 
   product:
-    environment:
-      - TCP_PORT=4002
-      - HTTP_PORT=3002
+    # environment:
+    #   - TCP_PORT=4002
+    #   - HTTP_PORT=3002
     build:
       context: .
       dockerfile: ./apps/product/Dockerfile

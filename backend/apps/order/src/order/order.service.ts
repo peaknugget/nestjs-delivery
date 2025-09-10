@@ -25,7 +25,7 @@ export class OrderService {
   ) {}
 
   async createOrder(createOrderDto: CreateOrderDto) {
-    const { token, productIds, address, payment, meta } = createOrderDto;
+    const { productIds, address, payment, meta } = createOrderDto;
 
     /// 1) 사용자 정보 가져오기
     console.log(

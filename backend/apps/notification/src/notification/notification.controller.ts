@@ -19,11 +19,11 @@ export class NotificationController
   // @UsePipes(ValidationPipe)
   // @UseInterceptors(RpcInterceptor)
   async sendPaymentNotification(
-    @Payload() payload: SendPaymentNotificationDto,
+    request: NotificationMicroservice.SendPaymentNotificationRequest,
   ) {
-    console.log('✔️ NotificationController sendPaymentNotification', payload);
+    console.log('✔️ NotificationController sendPaymentNotification', request);
     const resp = (
-      await this.notificationService.sendPaymentNotification(payload)
+      await this.notificationService.sendPaymentNotification(request)
     ).toJSON();
 
     return { ...resp, status: resp.status.toString() };

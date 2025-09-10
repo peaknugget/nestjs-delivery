@@ -21,12 +21,12 @@ export class PaymentController
   // @MessagePattern({ cmd: 'make_payment' })
   // @UsePipes(new ValidationPipe())
   // @UseInterceptors(RpcInterceptor)
-  async makePayment(payload: PaymentMicroservice.MakePaymentRequest) {
-    console.log('🔖PaymentController  makePayment', payload);
+  async makePayment(request: PaymentMicroservice.MakePaymentRequest) {
+    console.log('🔖PaymentController  makePayment', request);
 
     return this.paymentService.makePayment({
-      ...payload,
-      paymentMethod: payload.paymentMethod as PaymentMethod,
+      ...request,
+      paymentMethod: request.paymentMethod as PaymentMethod,
     });
   }
 }

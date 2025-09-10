@@ -33,13 +33,12 @@ export class ProductController
   // @MessagePattern({ cmd: 'get_products_info' })
   // @UsePipes(ValidationPipe)
   // @UseInterceptors(RpcInterceptor)
-  async getProductsInfo(@Payload() data: GetProductsInfo) {
+  async getProductsInfo(request: GetProductsInfo) {
     console.log('🎈getProductsInfo');
-    const resp = await this.productService.getProductsInfo(data.productIds);
+    const resp = await this.productService.getProductsInfo(request.productIds);
 
     return {
       products: resp,
     };
   }
-  
 }
