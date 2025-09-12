@@ -1,8 +1,15 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientGrpc, ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
-import { PAYMENT_SERVICE, PRODUCT_SERVICE, USER_SERVICE } from '@app/common';
+import {
+  PAYMENT_SERVICE,
+  PaymentMicroservice,
+  PRODUCT_SERVICE,
+  ProductMicroservice,
+  USER_SERVICE,
+  UserMicroservice,
+} from '@app/common';
 import { PaymentCancelledException } from './exception/payment-cancelled.exception';
 import { Product } from './entity/product.entity';
 import { Customer } from './entity/customer.entity';
@@ -14,15 +21,38 @@ import { PaymentDto } from './dto/payment.dto';
 import { PaymentFailedException } from './exception/payment-failed.exception';
 
 @Injectable()
-export class OrderService {
+export class OrderService implements OnModuleInit {
+  userService: UserMicroservice.UserServiceClient;
+  productService: ProductMicroservice.ProductServiceClient;
+  paymentService: PaymentMicroservice.PaymentServiceClient;
+
   constructor(
-    @Inject(USER_SERVICE) private readonly userService: ClientProxy,
-    @Inject(PRODUCT_SERVICE) private readonly productService: ClientProxy,
-    @Inject(PAYMENT_SERVICE) private readonly paymentService: ClientProxy,
+    // @Inject(USER_SERVICE) private readonly userService: ClientProxy,
+    // @Inject(PRODUCT_SERVICE) private readonly productService: ClientProxy,
+    // @Inject(PAYMENT_SERVICE) private readonly paymentService: ClientProxy,
+
+    @Inject(USER_SERVICE) private readonly userMicroService: ClientGrpc,
+    @Inject(PRODUCT_SERVICE) private readonly productMicroService: ClientGrpc,
+    @Inject(PAYMENT_SERVICE) private readonly paymentMicroService: ClientGrpc,
 
     @InjectModel(Order.name)
     private readonly orderModel: Model<Order>,
   ) {}
+
+  onModuleInit() {
+    this.userService =
+      this.userMicroService.getService<UserMicroservice.UserServiceClient>(
+        'UserService',
+      );
+    this.productService =
+      this.productMicroService.getService<ProductMicroservice.ProductServiceClient>(
+        'ProductService',
+      );
+    this.paymentService =
+      this.paymentMicroService.getService<PaymentMicroservice.PaymentServiceClient>(
+        'PaymentService',
+      );
+  }
 
   async createOrder(createOrderDto: CreateOrderDto) {
     const { productIds, address, payment, meta } = createOrderDto;
@@ -94,28 +124,40 @@ export class OrderService {
     // 2) User MS : 사용자 정보 가져오기
     //const userId = resp.data.sub;
 
-    const uResp = await lastValueFrom(
-      this.userService.send({ cmd: 'get_user_info' }, { userId }),
-    );
+    // const uResp = await lastValueFrom(
+    //   this.userService.send({ cmd: 'get_user_info' }, { userId }),
+    // );
 
-    if (uResp.status === 'error') {
-      throw new PaymentCancelledException(uResp);
-    }
+    // if (uResp.status === 'error') {
+    //   throw new PaymentCancelledException(uResp);
+    // }
 
-    return uResp.data;
+    const uResp = await lastValueFrom(this.userService.getUserInfo({ userId }));
+    return uResp;
   }
 
   private async getProductsByIds(productIds: string[]): Promise<Product[]> {
-    const resp = await lastValueFrom(
-      this.productService.send({ cmd: 'get_products_info' }, { productIds }),
-    );
+    // const resp = await lastValueFrom(
+    //   this.productService.send({ cmd: 'get_products_info' }, { productIds }),
+    // );
 
-    if (resp.status === 'error') {
-      throw new PaymentCancelledException('상품 정보가 잘못됐습니다.!');
-    }
+    // if (resp.status === 'error') {
+    //   throw new PaymentCancelledException('상품 정보가 잘못됐습니다.!');
+    // }
 
     // Product 엔티티로 전환
-    return resp.data.map((product) => {
+    // return resp.data.map((product) => {
+    //   return {
+    //     productId: product.id,
+    //     name: product.name,
+    //     price: product.price,
+    //   };
+    // });
+
+    const resp = await lastValueFrom(
+      this.productService.getProductsInfo({ productIds }),
+    );
+    return resp.products.map((product) => {
       return {
         productId: product.id,
         name: product.name,
@@ -164,22 +206,35 @@ export class OrderService {
   ) {
     try {
       console.log('🔖payment 에 메시지 전송 :시작 ');
+      // const resp = await lastValueFrom(
+      //   this.paymentService.send(
+      //     { cmd: 'make_payment' },
+      //     { ...payment, userEmail, orderId },
+      //   ),
+      // );
+
+      // console.log('🔖payment 에 메시지 전송 :끝  ');
+
+      // const isPaid = resp.data.paymentStatus === 'Approved';
+      // const orderStatus = isPaid
+      //   ? OrderStatus.paymentProcessed
+      //   : OrderStatus.paymentFailed;
+
+      // if (orderStatus === OrderStatus.paymentFailed) {
+      //   throw new PaymentFailedException(resp.error);
+      // }
+
       const resp = await lastValueFrom(
-        this.paymentService.send(
-          { cmd: 'make_payment' },
-          { ...payment, userEmail, orderId },
-        ),
+        this.paymentService.makePayment({ ...payment, userEmail, orderId }),
       );
 
-      console.log('🔖payment 에 메시지 전송 :끝  ');
-
-      const isPaid = resp.data.paymentStatus === 'Approved';
+      const isPaid = resp.paymentStatus === 'Approved';
       const orderStatus = isPaid
         ? OrderStatus.paymentProcessed
         : OrderStatus.paymentFailed;
 
       if (orderStatus === OrderStatus.paymentFailed) {
-        throw new PaymentFailedException(resp.error);
+        throw new PaymentFailedException(resp);
       }
 
       await this.orderModel.findByIdAndUpdate(orderId, {
