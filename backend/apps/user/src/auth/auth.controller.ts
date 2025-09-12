@@ -14,7 +14,8 @@ import { LoginDto } from './dto/login.dto';
 import { UserMicroservice } from '@app/common';
 
 @Controller('auth')
-export class AuthControlle implements UserMicroservice.AuthServiceController {
+@UserMicroservice.AuthServiceControllerMethods()
+export class AuthController implements UserMicroservice.AuthServiceController {
   constructor(private readonly authService: AuthService) {}
 
   // @MessagePattern({

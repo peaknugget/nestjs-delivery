@@ -11,8 +11,10 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 import { GetProductsInfo } from './dto/get-products-info.dto';
 import { RpcInterceptor } from '@app/common/interceptor';
 import { ProductMicroservice } from '@app/common';
+import { Product } from './entity/product.entity';
 
 @Controller('product')
+@ProductMicroservice.ProductServiceControllerMethods()
 export class ProductController
   implements ProductMicroservice.ProductServiceController
 {

@@ -10,6 +10,7 @@ import { NotificationMicroservice, RpcInterceptor } from '@app/common';
 import { SendPaymentNotificationDto } from './dto/send-payment-notification.dto';
 
 @Controller()
+@NotificationMicroservice.NotificationServiceControllerMethods()
 export class NotificationController
   implements NotificationMicroservice.NotificationServiceController
 {

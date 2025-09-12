@@ -9,8 +9,10 @@ import { UserService } from './user.service';
 import { MessagePattern } from '@nestjs/microservices';
 import { RpcInterceptor } from '@app/common/interceptor';
 import { UserMicroservice } from '@app/common';
+import { User } from './entity/user.entity';
 
 @Controller()
+@UserMicroservice.UserServiceControllerMethods()
 export class UserController implements UserMicroservice.UserServiceController {
   constructor(private readonly userService: UserService) {}
 

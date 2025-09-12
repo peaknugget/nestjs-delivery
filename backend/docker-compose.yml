@@ -214,7 +214,7 @@ services:
   #   ports:
   #     - "6379:6379"
 
-  rabbitmq:
-    image: rabbitmq:4
+  # rabbitmq:
+  #   image: rabbitmq:4
     
 
