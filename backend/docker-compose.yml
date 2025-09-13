@@ -20,13 +20,10 @@ services:
       - '3000:3000'
     volumes:
       - .:/usr/src/app
+      - .:/usr/src/app:cached  # 프로젝트 전체 마운트
       - /usr/src/app/node_modules
 
-
   user:
-    # environment:
-    #   - TCP_PORT=4001
-    #   - HTTP_PORT=3001
     build:
       context: .
       dockerfile: ./apps/user/Dockerfile
@@ -37,10 +34,8 @@ services:
         condition: service_healthy
     env_file:
       - ./apps/user/.env
-    #ports:
-      #- '3001:3001' # HTTP만 호스트에 노출
     volumes:
-      - .:/usr/src/app           # ✅ 전체 마운트
+      - .:/usr/src/app
       - /usr/src/app/node_modules
  
   postgres_user:
@@ -54,16 +49,13 @@ services:
     volumes:
       - ./postgres/user:/var/lib/postgresql/data
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
       timeout: 5s
       retries: 10
       start_period: 5s
 
   product:
-    # environment:
-    #   - TCP_PORT=4002
-    #   - HTTP_PORT=3002
     build:
       context: .
       dockerfile: ./apps/product/Dockerfile
@@ -74,10 +66,8 @@ services:
         condition: service_healthy
     env_file:
       - ./apps/product/.env
-    # ports:
-    #   - '3002:3002'  
     volumes:
-      - .:/usr/src/app           # ✅ 전체 마운트
+      - .:/usr/src/app
       - /usr/src/app/node_modules
 
 
@@ -110,8 +100,6 @@ services:
         condition: service_healthy
     env_file:
       - ./apps/order/.env
-    # ports:
-    #   - '3003:3003'  
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -146,8 +134,6 @@ services:
         condition: service_healthy
     env_file:
       - ./apps/payment/.env
-    # ports:
-    #   - '3004:3004'  
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -160,7 +146,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
     ports:
-      - '6004:5432'
+      - '6005:5432'
     volumes:
       - ./postgres/payment:/var/lib/postgresql/data
     healthcheck:
@@ -169,8 +155,6 @@ services:
       timeout: 5s
       retries: 10
       start_period: 5s
-
-
 
       
   notification:
@@ -184,12 +168,9 @@ services:
         condition: service_healthy
     env_file:
       - ./apps/notification/.env
-    # ports:
-    #   - '3005:3005'  
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
-
 
   mongo_notification:
     image: mongo:8
@@ -197,7 +178,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: mongo
       MONGO_INITDB_ROOT_PASSWORD: mongo
     ports:
-      - '6005:27017'
+      - '6006:27017'
     volumes:
       - ./mongo/notification:/data/lib
     command: mongod --quiet --logpath /dev/null

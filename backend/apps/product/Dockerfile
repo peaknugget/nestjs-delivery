@@ -1,7 +1,6 @@
 # 어떤 이미지를 사용할지
 FROM node:alpine AS development
 
-
 WORKDIR /usr/src/app
 
 # package.json 복사해오기
@@ -18,15 +17,28 @@ RUN pnpm i
 
 # 나머지 파일/폴더 복사해오기
 COPY apps/product apps/product
-COPY libs ./libs 
-
-
-# devDependencies 포함 설치
-RUN pnpm install --frozen-lockfile --production=false
-
-
+COPY libs libs
+COPY proto proto
 
 RUN pnpm build product
 
 # 커맨드 실행
 CMD ["pnpm", "start:dev", "product"]
+
+FROM node:alpine AS production
+
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
+
+WORKDIR /usr/src/app
+
+COPY package.json ./
+COPY pnpm-lock.yaml ./
+
+RUN npm install -g pnpm
+RUN pnpm install --prod
+
+COPY --from=development /usr/src/app/dist ./dist
+COPY proto proto
+
+CMD ["node", "dist/apps/product/main"]
