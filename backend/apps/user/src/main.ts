@@ -25,7 +25,7 @@ async function bootstrap() {
     transport: Transport.GRPC,
     options: {
       package: UserMicroservice.protobufPackage,
-      protoPath: join(process.cwd(), 'proto/user.proto'),
+      protoPath: join(process.cwd(), 'proto', 'user.proto'),
       url: configService.getOrThrow('GRPC_URL'),
     },
   });

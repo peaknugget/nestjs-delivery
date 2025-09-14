@@ -20,7 +20,6 @@ services:
       - '3000:3000'
     volumes:
       - .:/usr/src/app
-      - .:/usr/src/app:cached  # 프로젝트 전체 마운트
       - /usr/src/app/node_modules
 
   user:

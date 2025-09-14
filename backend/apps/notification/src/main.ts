@@ -13,7 +13,7 @@ async function bootstrap() {
     transport: Transport.GRPC,
     options: {
       package: NotificationMicroservice.protobufPackage,
-      protoPath: join(process.cwd(), 'proto/notification.proto'),
+      protoPath: join(process.cwd(), 'proto', 'notification.proto'),
       url: configService.getOrThrow('NOTIFICATION_GRPC_URL'),
     },
   });

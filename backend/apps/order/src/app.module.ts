@@ -44,7 +44,7 @@ import { join } from 'path';
             transport: Transport.GRPC,
             options: {
               package: UserMicroservice.protobufPackage,
-              protoPath: join(process.cwd(), 'proto/user.proto'),
+              protoPath: join(process.cwd(), 'proto', 'user.proto'),
               url: configService.getOrThrow('USER_GRPC_URL'),
             },
           }),
@@ -57,7 +57,7 @@ import { join } from 'path';
             transport: Transport.GRPC,
             options: {
               package: ProductMicroservice.protobufPackage,
-              protoPath: join(process.cwd(), 'proto/product.proto'),
+              protoPath: join(process.cwd(), 'proto', 'product.proto'),
               url: configService.getOrThrow('PRODUCT_GRPC_URL'),
             },
           }),
@@ -70,7 +70,7 @@ import { join } from 'path';
             transport: Transport.GRPC,
             options: {
               package: PaymentMicroservice.protobufPackage,
-              protoPath: join(process.cwd(), 'proto/payment.proto'),
+              protoPath: join(process.cwd(), 'proto', 'payment.proto'),
               url: configService.getOrThrow('PAYMENT_GRPC_URL'),
             },
           }),

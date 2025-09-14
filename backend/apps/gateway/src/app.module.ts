@@ -15,22 +15,19 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
 import { BearerTokenMiddleware } from './auth/middleware/bearer-token.middleware';
 import { join } from 'path';
+//import { traceInterceptor } from "@app/common/grpc/interceptor";
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
-        HTTP_PORT: Joi.number().required(),
-
-        USER_HOST: Joi.string().required(), // ✅ 추가
-        USER_TCP_PORT: Joi.number().required(), // ✅ 추가
-
-        PRODUCT_HOST: Joi.string().required(), // ✅ 추가
-        PRODUCT_TCP_PORT: Joi.number().required(), // ✅ 추가
-
-        ORDER_HOST: Joi.string().required(), // ✅ 추가
-        ORDER_TCP_PORT: Joi.number().required(), // ✅ 추가
+        USER_HOST: Joi.string().required(),
+        USER_TCP_PORT: Joi.number().required(),
+        PRODUCT_HOST: Joi.string().required(),
+        PRODUCT_TCP_PORT: Joi.number().required(),
+        ORDER_HOST: Joi.string().required(),
+        ORDER_TCP_PORT: Joi.number().required(),
       }),
     }),
     ClientsModule.registerAsync({
@@ -40,34 +37,41 @@ import { join } from 'path';
           useFactory: (configService: ConfigService) => ({
             transport: Transport.GRPC,
             options: {
+              // channelOptions: {
+              //   interceptors: [traceInterceptor('Gateway')],
+              // },
               package: UserMicroservice.protobufPackage,
-              protoPath: join(process.cwd(), 'proto/user.proto'),
+              protoPath: join(process.cwd(), 'proto', 'user.proto'),
               url: configService.getOrThrow('USER_GRPC_URL'),
             },
           }),
           inject: [ConfigService],
         },
-
         {
-          name: PRODUCT_SERVICE, // ✅ 추가
+          name: PRODUCT_SERVICE,
           useFactory: (configService: ConfigService) => ({
             transport: Transport.GRPC,
             options: {
+              // channelOptions: {
+              //   interceptors: [traceInterceptor('Gateway')],
+              // },
               package: ProductMicroservice.protobufPackage,
-              protoPath: join(process.cwd(), 'proto/product.proto'),
+              protoPath: join(process.cwd(), 'proto', 'product.proto'),
               url: configService.getOrThrow('PRODUCT_GRPC_URL'),
             },
           }),
           inject: [ConfigService],
         },
-
         {
           name: ORDER_SERVICE,
           useFactory: (configService: ConfigService) => ({
             transport: Transport.GRPC,
             options: {
+              // channelOptions: {
+              //   interceptors: [traceInterceptor('Gateway')],
+              // },
               package: OrderMicroservice.protobufPackage,
-              protoPath: join(process.cwd(), 'proto/order.proto'),
+              protoPath: join(process.cwd(), 'proto', 'order.proto'),
               url: configService.getOrThrow('ORDER_GRPC_URL'),
             },
           }),
@@ -76,7 +80,6 @@ import { join } from 'path';
       ],
       isGlobal: true,
     }),
-
     OrderModule,
     ProductModule,
     AuthModule,

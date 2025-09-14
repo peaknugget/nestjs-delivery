@@ -32,7 +32,7 @@ import { join } from 'path';
             transport: Transport.GRPC,
             options: {
               package: OrderMicroservice.protobufPackage,
-              protoPath: join(process.cwd(), 'proto/order.proto'),
+              protoPath: join(process.cwd(), 'proto', 'order.proto'),
               url: configService.getOrThrow('GRPC_URL'),
             },
           }),
