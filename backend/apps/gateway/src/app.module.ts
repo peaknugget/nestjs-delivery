@@ -8,6 +8,7 @@ import {
   OrderMicroservice,
   PRODUCT_SERVICE,
   ProductMicroservice,
+  traceInterceptor,
   USER_SERVICE,
   UserMicroservice,
 } from '@app/common';
@@ -15,7 +16,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
 import { BearerTokenMiddleware } from './auth/middleware/bearer-token.middleware';
 import { join } from 'path';
-import { traceInterceptor } from '@app/common/grpc/interceptor';
+
 //import { traceInterceptor } from "@app/common/grpc/interceptor";
 
 @Module({

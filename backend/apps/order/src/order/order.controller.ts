@@ -2,14 +2,20 @@ import { Controller, UseInterceptors } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
-import { OrderMicroservice, RpcInterceptor } from '@app/common';
+import {
+  GrpcInterceptor,
+  OrderMicroservice,
+  RpcInterceptor,
+} from '@app/common';
 import { DeliveryStartedDto } from './dto/delivery-started.dto';
 import { Order, OrderStatus } from './entity/order.entity';
 import { Payment, PaymentMethod } from './entity/payment.entity';
+import { Metadata } from '@grpc/grpc-js';
 
 //pnpm i @nestjs/microservices
 @Controller('order')
 @OrderMicroservice.OrderServiceControllerMethods()
+@UseInterceptors(GrpcInterceptor)
 export class OrderController
   implements OrderMicroservice.OrderServiceController
 {
@@ -27,14 +33,20 @@ export class OrderController
   }
 
   @MessagePattern({ cmd: 'create_order' })
-  async createOrder(request: OrderMicroservice.CreateOrderRequest) {
+  async createOrder(
+    request: OrderMicroservice.CreateOrderRequest,
+    metadata: Metadata,
+  ) {
     console.log('2.microService OrderController createOrder   token:', request);
-    return this.orderService.createOrder({
-      ...request,
-      payment: {
-        ...request.payment,
-        paymentMethod: request.payment.paymentMethod as PaymentMethod,
+    return this.orderService.createOrder(
+      {
+        ...request,
+        payment: {
+          ...request.payment,
+          paymentMethod: request.payment.paymentMethod as PaymentMethod,
+        },
       },
-    });
+      metadata,
+    );
   }
 }

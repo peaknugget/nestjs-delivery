@@ -9,13 +9,14 @@ import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { ParseBearerTokenDto } from './dto/parse-bearer-token.dto';
-import { RpcInterceptor } from '@app/common/interceptor';
+import { GrpcInterceptor, RpcInterceptor } from '@app/common/interceptor';
 import { LoginDto } from './dto/login.dto';
 import { UserMicroservice } from '@app/common';
 import { Metadata } from '@grpc/grpc-js';
 
 @Controller('auth')
 @UserMicroservice.AuthServiceControllerMethods()
+@UseInterceptors(GrpcInterceptor)
 export class AuthController implements UserMicroservice.AuthServiceController {
   constructor(private readonly authService: AuthService) {}
 

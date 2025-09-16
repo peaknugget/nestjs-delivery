@@ -3,8 +3,13 @@ import { SendPaymentNotificationDto } from './dto/send-payment-notification.dto'
 import { InjectModel } from '@nestjs/mongoose';
 import { Notification, NotificationStatus } from './entity/notification.entity';
 import { Model } from 'mongoose';
-import { ORDER_SERVICE, OrderMicroservice } from '@app/common';
+import {
+  constructMetadata,
+  ORDER_SERVICE,
+  OrderMicroservice,
+} from '@app/common';
 import { ClientGrpc, ClientProxy } from '@nestjs/microservices';
+import { Metadata } from '@grpc/grpc-js';
 
 @Injectable()
 export class NotificationService implements OnModuleInit {
@@ -28,7 +33,10 @@ export class NotificationService implements OnModuleInit {
       );
   }
 
-  async sendPaymentNotification(data: SendPaymentNotificationDto) {
+  async sendPaymentNotification(
+    data: SendPaymentNotificationDto,
+    metadata: Metadata,
+  ) {
     const notification = await this.createNotifiction(data.to);
 
     await this.sendEmail();
@@ -38,19 +46,26 @@ export class NotificationService implements OnModuleInit {
       NotificationStatus.sent,
     );
 
-    this.sendDeliveryStartedMessage(data.orderId);
+    this.sendDeliveryStartedMessage(data.orderId, metadata);
 
     return this.notificationModel.findById(notification._id);
   }
 
-  sendDeliveryStartedMessage(id: string) {
+  sendDeliveryStartedMessage(id: string, metadata: Metadata) {
     // this.orderMicroservice.emit(
     //   {
     //     cmd: 'delivery_started',
     //   },
     //   { id },
     // );
-    this.orderService.deliveryStarted({ id });
+    this.orderService.deliveryStarted(
+      { id },
+      constructMetadata(
+        NotificationService.name,
+        'sendDeliveryStartedMessage',
+        metadata,
+      ),
+    );
   }
 
   async updateNotificationStatus(id: string, status: NotificationStatus) {

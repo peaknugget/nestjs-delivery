@@ -3,9 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Payment, PaymentStatus } from './entity/payment.entity';
 import { Repository } from 'typeorm';
 import { MakePaymentDto } from './dto/make-payment.dto';
-import { NOTIFICATION_SERVICE, NotificationMicroservice } from '@app/common';
+import {
+  constructMetadata,
+  NOTIFICATION_SERVICE,
+  NotificationMicroservice,
+} from '@app/common';
 import { ClientGrpc, ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
+import { Metadata } from '@grpc/grpc-js';
 
 @Injectable()
 export class PaymentService implements OnModuleInit {
@@ -28,7 +33,7 @@ export class PaymentService implements OnModuleInit {
       );
   }
 
-  async makePayment(payload: MakePaymentDto) {
+  async makePayment(payload: MakePaymentDto, metadata: Metadata) {
     let paymentId = null;
     try {
       const result = await this.paymentRepository.save(payload);
@@ -41,7 +46,7 @@ export class PaymentService implements OnModuleInit {
 
       //Notification 보내기
       console.log('✅  Notification 보내기 : ');
-      this.sendNotification(payload.orderId, payload.userEmail);
+      this.sendNotification(payload.orderId, payload.userEmail, metadata);
 
       return this.paymentRepository.findOneBy({ id: result.id });
     } catch (e) {
@@ -68,7 +73,7 @@ export class PaymentService implements OnModuleInit {
     );
   }
 
-  async sendNotification(orderId: string, to: string) {
+  async sendNotification(orderId: string, to: string, metadata: Metadata) {
     // const resp = await lastValueFrom(
     //   this.notificationService.send(
     //     { cmd: 'send_payment_notification' },
@@ -78,7 +83,10 @@ export class PaymentService implements OnModuleInit {
 
     // GRPC 통신
     const resp = await lastValueFrom(
-      this.notificationService.sendPaymentNotification({ to, orderId }),
+      this.notificationService.sendPaymentNotification(
+        { to, orderId },
+        constructMetadata(PaymentService.name, 'sendNotification', metadata),
+      ),
     );
     console.log('✅  sendNotification resp : ', resp);
   }

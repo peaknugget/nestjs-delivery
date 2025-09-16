@@ -5,7 +5,11 @@ import * as Joi from 'joi';
 import { MongooseModule } from '@nestjs/mongoose';
 import { NotificationModule } from './notification/notification.module';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { ORDER_SERVICE, OrderMicroservice } from '@app/common';
+import {
+  ORDER_SERVICE,
+  OrderMicroservice,
+  traceInterceptor,
+} from '@app/common';
 import { join } from 'path';
 
 @Module({
@@ -31,6 +35,9 @@ import { join } from 'path';
           useFactory: (configService: ConfigService) => ({
             transport: Transport.GRPC,
             options: {
+              channelOptions: {
+                interceptors: [traceInterceptor('Notification')],
+              },
               package: OrderMicroservice.protobufPackage,
               protoPath: join(process.cwd(), 'proto', 'order.proto'),
               url: configService.getOrThrow('GRPC_URL'),
