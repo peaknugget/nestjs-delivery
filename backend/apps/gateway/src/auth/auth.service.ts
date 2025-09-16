@@ -3,6 +3,8 @@ import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc, ClientProxy, MessagePattern } from '@nestjs/microservices';
 import { last, lastValueFrom } from 'rxjs';
 import { RegisterDto } from './dto/register.dto';
+import { Metadata } from '@grpc/grpc-js';
+import { constructMetadata } from '@app/common/grpc/utils/construct-metadata.utils';
 
 @Injectable()
 export class AuthService implements OnModuleInit {
@@ -33,7 +35,10 @@ export class AuthService implements OnModuleInit {
     // );
 
     return lastValueFrom(
-      this.authService.registerUser({ ...registerDto, token }),
+      this.authService.registerUser(
+        { ...registerDto, token },
+        constructMetadata(AuthService.name, 'register'),
+      ),
     );
   }
 
@@ -41,6 +46,15 @@ export class AuthService implements OnModuleInit {
     // return lastValueFrom(
     //   this.userMicroservice.send({ cmd: 'login' }, { token }),
     // );
-    return lastValueFrom(this.authService.loginUser({ token }));
+    const metadata = new Metadata();
+
+    metadata.set('test', 'hello');
+
+    return lastValueFrom(
+      this.authService.loginUser(
+        { token },
+        constructMetadata(AuthService.name, 'login'),
+      ),
+    );
   }
 }
