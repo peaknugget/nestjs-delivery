@@ -1,0 +1,22 @@
+WSL2-Ubuntu24:kubernetes$ kubectl apply -f ./1_pod/pod.yml
+pod/nginx-app created
+WSL2-Ubuntu24:kubernetes$ kubectl get pods
+NAME        READY   STATUS    RESTARTS   AGE
+nginx-app   1/1     Running   0          46s
+WSL2-Ubuntu24:kubernetes$ kubectl get pods
+NAME        READY   STATUS    RESTARTS   AGE
+nginx-app   1/1     Running   0          70s
+WSL2-Ubuntu24:kubernetes$ kubectl delete -f  ./1_pod/pod.yml 
+pod "nginx-app" deleted
+WSL2-Ubuntu24:kubernetes$ kubectl get pods
+No resources found in default namespace.
+WSL2-Ubuntu24:kubernetes$ kubectl apply -f ./1_pod
+pod/nginx-app created
+WSL2-Ubuntu24:kubernetes$ kubectl get pod
+NAME        READY   STATUS    RESTARTS   AGE
+nginx-app   1/1     Running   0          18s
+WSL2-Ubuntu24:kubernetes$ kubectl delete -f  ./1_pod
+pod "nginx-app" deleted
+WSL2-Ubuntu24:kubernetes$ kubectl get pod
+No resources found in default namespace.
+WSL2-Ubuntu24:kubernetes$ 
