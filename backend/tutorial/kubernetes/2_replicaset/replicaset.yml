@@ -1,13 +1,13 @@
 apiVersion: apps/v1
 kind: ReplicaSet
-metadata: 
+metadata:
   name: nginx-replicaset
   labels:
     app: nginx-app
     type: back-end
 
 spec:
-  replicas: 20
+  replicas: 3
   template:
     metadata:
       labels:
