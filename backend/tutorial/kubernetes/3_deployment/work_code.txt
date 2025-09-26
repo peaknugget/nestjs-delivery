@@ -1,0 +1,197 @@
+WSL2-Ubuntu24:kubernetes$ kubectl apply -f 3_deployment
+deployment.apps/nginx-deployment created
+WSL2-Ubuntu24:kubernetes$ kubectl get replicas
+error: the server doesn't have a resource type "replicas"
+WSL2-Ubuntu24:kubernetes$ kubectl get replicaset
+NAME                          DESIRED   CURRENT   READY   AGE
+nginx-deployment-5b44f47bc9   3         3         3       14s
+WSL2-Ubuntu24:kubernetes$ kubectl get pod
+NAME                                READY   STATUS    RESTARTS   AGE
+nginx-deployment-5b44f47bc9-7jfpr   1/1     Running   0          41s
+nginx-deployment-5b44f47bc9-tskqx   1/1     Running   0          41s
+nginx-deployment-5b44f47bc9-z2q8m   1/1     Running   0          41s
+WSL2-Ubuntu24:kubernetes$ kubectl rollout status deployment/nginx-deployment
+deployment "nginx-deployment" successfully rolled out
+WSL2-Ubuntu24:kubernetes$ kubectl apply -f ./3_deployment/rolling_update.yml 
+deployment.apps/nginx-deployment configured
+WSL2-Ubuntu24:kubernetes$ kubectl apply -f 3_deployment/rolling_update.yml 
+deployment.apps/nginx-deployment unchanged
+WSL2-Ubuntu24:kubernetes$ kubectl get pod
+NAME                                READY   STATUS              RESTARTS   AGE
+nginx-deployment-5b44f47bc9-7jfpr   1/1     Running             0          13m
+nginx-deployment-5b44f47bc9-cn4mr   1/1     Terminating         0          2m46s
+nginx-deployment-5b44f47bc9-dfnht   0/1     Completed           0          2m46s
+nginx-deployment-5b44f47bc9-nl5hm   1/1     Running             0          2m46s
+nginx-deployment-5b44f47bc9-tskqx   1/1     Running             0          13m
+nginx-deployment-5b44f47bc9-z2q8m   1/1     Running             0          13m
+nginx-deployment-75f6448cc6-5g8nj   1/1     Running             0          54s
+nginx-deployment-75f6448cc6-66v49   1/1     Running             0          89s
+nginx-deployment-75f6448cc6-7pp7b   1/1     Running             0          15s
+nginx-deployment-75f6448cc6-8ftbm   1/1     Running             0          20s
+nginx-deployment-75f6448cc6-8mxg6   0/1     ContainerCreating   0          5s
+nginx-deployment-75f6448cc6-b7gxk   1/1     Running             0          44s
+nginx-deployment-75f6448cc6-bkxgs   0/1     ContainerCreating   0          9s
+nginx-deployment-75f6448cc6-dp8xc   1/1     Running             0          73s
+nginx-deployment-75f6448cc6-dzjhr   1/1     Running             0          32s
+nginx-deployment-75f6448cc6-hqksg   1/1     Running             0          2m46s
+nginx-deployment-75f6448cc6-kqtbs   1/1     Running             0          54s
+nginx-deployment-75f6448cc6-pmh2c   1/1     Running             0          76s
+nginx-deployment-75f6448cc6-q8fmt   1/1     Running             0          2m15s
+nginx-deployment-75f6448cc6-r6wzb   1/1     Running             0          68s
+nginx-deployment-75f6448cc6-s8bp8   1/1     Running             0          39s
+nginx-deployment-75f6448cc6-sw7zf   1/1     Running             0          25s
+nginx-deployment-75f6448cc6-x5fxz   1/1     Running             0          2m46s
+WSL2-Ubuntu24:kubernetes$ kubectl get replicaset
+NAME                          DESIRED   CURRENT   READY   AGE
+nginx-deployment-5b44f47bc9   2         2         2       13m
+nginx-deployment-75f6448cc6   19        19        17      2m59s
+WSL2-Ubuntu24:kubernetes$ kubectl get replicaset
+NAME                          DESIRED   CURRENT   READY   AGE
+nginx-deployment-5b44f47bc9   1         1         1       14m
+nginx-deployment-75f6448cc6   20        20        18      3m11s
+WSL2-Ubuntu24:kubernetes$ kubectl get replicaset
+NAME                          DESIRED   CURRENT   READY   AGE
+nginx-deployment-5b44f47bc9   0         0         0       14m
+nginx-deployment-75f6448cc6   20        20        20      3m34s
+WSL2-Ubuntu24:kubernetes$ kubectl describe replicaset
+Name:           nginx-deployment-5b44f47bc9
+Namespace:      default
+Selector:       app=nginx-app,pod-template-hash=5b44f47bc9,type=back-end
+Labels:         app=nginx-app
+                pod-template-hash=5b44f47bc9
+                type=back-end
+Annotations:    deployment.kubernetes.io/desired-replicas: 20
+                deployment.kubernetes.io/max-replicas: 21
+                deployment.kubernetes.io/revision: 1
+Controlled By:  Deployment/nginx-deployment
+Replicas:       0 current / 0 desired
+Pods Status:    0 Running / 0 Waiting / 0 Succeeded / 0 Failed
+Pod Template:
+  Labels:  app=nginx-app
+           pod-template-hash=5b44f47bc9
+           type=back-end
+  Containers:
+   nginx-container:
+    Image:         nginx
+    Port:          80/TCP
+    Host Port:     0/TCP
+    Environment:   <none>
+    Mounts:        <none>
+  Volumes:         <none>
+  Node-Selectors:  <none>
+  Tolerations:     <none>
+Events:
+  Type    Reason            Age                    From                   Message
+  ----    ------            ----                   ----                   -------
+  Normal  SuccessfulCreate  15m                    replicaset-controller  Created pod: nginx-deployment-5b44f47bc9-7jfpr
+  Normal  SuccessfulCreate  15m                    replicaset-controller  Created pod: nginx-deployment-5b44f47bc9-tskqx
+  Normal  SuccessfulCreate  15m                    replicaset-controller  Created pod: nginx-deployment-5b44f47bc9-z2q8m
+  Normal  SuccessfulCreate  4m12s                  replicaset-controller  Created pod: nginx-deployment-5b44f47bc9-phj6v
+  Normal  SuccessfulCreate  4m12s                  replicaset-controller  Created pod: nginx-deployment-5b44f47bc9-kn6tk
+  Normal  SuccessfulCreate  4m12s                  replicaset-controller  Created pod: nginx-deployment-5b44f47bc9-vm9jk
+  Normal  SuccessfulCreate  4m12s                  replicaset-controller  Created pod: nginx-deployment-5b44f47bc9-cn4mr
+  Normal  SuccessfulCreate  4m12s                  replicaset-controller  Created pod: nginx-deployment-5b44f47bc9-8sdpj
+  Normal  SuccessfulCreate  4m12s                  replicaset-controller  Created pod: nginx-deployment-5b44f47bc9-mkk2b
+  Normal  SuccessfulCreate  4m12s                  replicaset-controller  Created pod: nginx-deployment-5b44f47bc9-r7brb
+  Normal  SuccessfulCreate  4m12s                  replicaset-controller  Created pod: nginx-deployment-5b44f47bc9-jdfzw
+  Normal  SuccessfulCreate  4m12s                  replicaset-controller  Created pod: nginx-deployment-5b44f47bc9-dfnht
+  Normal  SuccessfulDelete  4m11s                  replicaset-controller  Deleted pod: nginx-deployment-5b44f47bc9-phj6v
+  Normal  SuccessfulCreate  4m11s (x8 over 4m11s)  replicaset-controller  (combined from similar events): Created pod: nginx-deployment-5b44f47bc9-6vqlk
+  Normal  SuccessfulDelete  3m41s                  replicaset-controller  Deleted pod: nginx-deployment-5b44f47bc9-6vqlk
+  Normal  SuccessfulDelete  2m55s                  replicaset-controller  Deleted pod: nginx-deployment-5b44f47bc9-c8xls
+  Normal  SuccessfulDelete  2m42s                  replicaset-controller  Deleted pod: nginx-deployment-5b44f47bc9-jdfzw
+  Normal  SuccessfulDelete  2m39s                  replicaset-controller  Deleted pod: nginx-deployment-5b44f47bc9-7zm85
+  Normal  SuccessfulDelete  2m34s                  replicaset-controller  Deleted pod: nginx-deployment-5b44f47bc9-484sx
+  Normal  SuccessfulDelete  2m21s                  replicaset-controller  Deleted pod: nginx-deployment-5b44f47bc9-vm9jk
+
+
+Name:           nginx-deployment-75f6448cc6
+Namespace:      default
+Selector:       app=nginx-app,pod-template-hash=75f6448cc6,type=back-end
+Labels:         app=nginx-app
+                pod-template-hash=75f6448cc6
+                type=back-end
+Annotations:    deployment.kubernetes.io/desired-replicas: 20
+                deployment.kubernetes.io/max-replicas: 21
+                deployment.kubernetes.io/revision: 2
+Controlled By:  Deployment/nginx-deployment
+Replicas:       20 current / 20 desired
+Pods Status:    20 Running / 0 Waiting / 0 Succeeded / 0 Failed
+Pod Template:
+  Labels:  app=nginx-app
+           pod-template-hash=75f6448cc6
+           type=back-end
+  Containers:
+   nginx-container:
+    Image:         nginx:1.19
+    Port:          80/TCP
+    Host Port:     0/TCP
+    Environment:   <none>
+    Mounts:        <none>
+    Image:         nginx:1.19
+    Port:          80/TCP
+    Host Port:     0/TCP
+    Environment:   <none>
+    Mounts:        <none>
+  Volumes:         <none>
+  Node-Selectors:  <none>
+  Tolerations:     <none>
+Events:
+    Image:         nginx:1.19
+    Port:          80/TCP
+    Host Port:     0/TCP
+    Environment:   <none>
+    Mounts:        <none>
+  Volumes:         <none>
+  Node-Selectors:  <none>
+  Tolerations:     <none>
+    Image:         nginx:1.19
+    Port:          80/TCP
+    Host Port:     0/TCP
+    Environment:   <none>
+    Mounts:        <none>
+  Volumes:         <none>
+    Image:         nginx:1.19
+    Port:          80/TCP
+    Host Port:     0/TCP
+    Environment:   <none>
+    Mounts:        <none>
+    Port:          80/TCP
+    Host Port:     0/TCP
+    Environment:   <none>
+    Mounts:        <none>
+    Host Port:     0/TCP
+    Environment:   <none>
+    Mounts:        <none>
+    Environment:   <none>
+    Mounts:        <none>
+    Mounts:        <none>
+  Volumes:         <none>
+  Node-Selectors:  <none>
+  Tolerations:     <none>
+Events:
+  Type    Reason            Age                   From                   Message
+  ----    ------            ----                  ----                   -------
+  Normal  SuccessfulCreate  4m12s                 replicaset-controller  Created pod: nginx-deployment-75f6448cc6-hqksg
+  Normal  SuccessfulCreate  4m12s                 replicaset-controller  Created pod: nginx-deployment-75f6448cc6-x5fxz
+  Normal  SuccessfulCreate  3m41s                 replicaset-controller  Created pod: nginx-deployment-75f6448cc6-q8fmt
+  Normal  SuccessfulCreate  2m55s                 replicaset-controller  Created pod: nginx-deployment-75f6448cc6-66v49
+  Normal  SuccessfulCreate  2m42s                 replicaset-controller  Created pod: nginx-deployment-75f6448cc6-pmh2c
+  Normal  SuccessfulCreate  2m39s                 replicaset-controller  Created pod: nginx-deployment-75f6448cc6-dp8xc
+  Normal  SuccessfulCreate  2m34s                 replicaset-controller  Created pod: nginx-deployment-75f6448cc6-r6wzb
+  Normal  SuccessfulCreate  2m20s                 replicaset-controller  Created pod: nginx-deployment-75f6448cc6-kqtbs
+  Normal  SuccessfulCreate  2m20s                 replicaset-controller  Created pod: nginx-deployment-75f6448cc6-5g8nj
+  Normal  SuccessfulCreate  68s (x11 over 2m10s)  replicaset-controller  (combined from similar events): Created pod: nginx-deployment-75f6448cc6-hh24l
+WSL2-Ubuntu24:kubernetes$ kubectl delete -f ./3_deployment/
+deployment.apps "nginx-deployment" deleted
+Error from server (NotFound): error when deleting "3_deployment/rolling_update.yml": deployments.apps "nginx-deployment" not found
+WSL2-Ubuntu24:kubernetes$ kubectl delete -f ./3_deployment
+Error from server (NotFound): error when deleting "3_deployment/deployment.yml": deployments.apps "nginx-deployment" not found
+Error from server (NotFound): error when deleting "3_deployment/rolling_update.yml": deployments.apps "nginx-deployment" not found
+WSL2-Ubuntu24:kubernetes$ kubectl get pod
+No resources found in default namespace.
+WSL2-Ubuntu24:kubernetes$
+
+
+
+
