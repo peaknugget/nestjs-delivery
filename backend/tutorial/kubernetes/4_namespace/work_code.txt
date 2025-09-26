@@ -1,0 +1,66 @@
+WSL2-Ubuntu24:kubernetes$ kubectl apply -f 4_namespace/
+namespace/dev created
+WSL2-Ubuntu24:kubernetes$ kubectl get namespace
+NAME              STATUS   AGE
+default           Active   3d17h
+dev               Active   9s
+kube-node-lease   Active   3d17h
+kube-public       Active   3d17h
+kube-system       Active   3d17h
+WSL2-Ubuntu24:kubernetes$ kubectl apply -f 3_deployment/deployment.yml
+deployment.apps/nginx-deployment created
+WSL2-Ubuntu24:kubernetes$ kubectl get pods
+NAME                                READY   STATUS              RESTARTS   AGE
+nginx-deployment-5b44f47bc9-2thgs   0/1     ContainerCreating   0          8s
+nginx-deployment-5b44f47bc9-8k8w6   1/1     Running             0          8s
+nginx-deployment-5b44f47bc9-swmtl   1/1     Running             0          8s
+WSL2-Ubuntu24:kubernetes$ kubectl config set-context $(kubectl config current-context) --namespace=dev
+Context "docker-desktop" modified.
+WSL2-Ubuntu24:kubernetes$ kubectl get pods
+No resources found in dev namespace.
+WSL2-Ubuntu24:kubernetes$ kubectl get pods --namespace=dev
+No resources found in dev namespace.
+WSL2-Ubuntu24:kubernetes$ kubectl get pods --namespace=default
+NAME                                READY   STATUS    RESTARTS   AGE
+nginx-deployment-5b44f47bc9-2thgs   1/1     Running   0          4m53s
+nginx-deployment-5b44f47bc9-8k8w6   1/1     Running   0          4m53s
+nginx-deployment-5b44f47bc9-swmtl   1/1     Running   0          4m53s
+WSL2-Ubuntu24:kubernetes$ kubectl config set-context $(kubectl config current-context) --namespace=default
+Context "docker-desktop" modified.
+WSL2-Ubuntu24:kubernetes$ kubectl get pods 
+NAME                                READY   STATUS    RESTARTS   AGE
+nginx-deployment-5b44f47bc9-2thgs   1/1     Running   0          5m39s
+nginx-deployment-5b44f47bc9-8k8w6   1/1     Running   0          5m39s
+nginx-deployment-5b44f47bc9-swmtl   1/1     Running   0          5m39s
+WSL2-Ubuntu24:kubernetes$ kubectl get all
+NAME                                    READY   STATUS    RESTARTS   AGE
+pod/nginx-deployment-5b44f47bc9-2thgs   1/1     Running   0          5m53s
+pod/nginx-deployment-5b44f47bc9-8k8w6   1/1     Running   0          5m53s
+pod/nginx-deployment-5b44f47bc9-swmtl   1/1     Running   0          5m53s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   3d17h
+
+NAME                               READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/nginx-deployment   3/3     3            3           5m53s
+
+NAME                                          DESIRED   CURRENT   READY   AGE
+replicaset.apps/nginx-deployment-5b44f47bc9   3         3         3       5m53s
+WSL2-Ubuntu24:kubernetes$ kubectl delete -f  ./4_namespace/
+error: error parsing 4_namespace/namespace.yml: error converting YAML to JSON: yaml: line 11: could not find expected ':'
+WSL2-Ubuntu24:kubernetes$ kubectl delete -f  ./4_namespace
+error: error parsing 4_namespace/namespace.yml: error converting YAML to JSON: yaml: line 11: could not find expected ':'
+WSL2-Ubuntu24:kubernetes$ kubectl delete -f 4_namespace/namespace.yml 
+error: error parsing 4_namespace/namespace.yml: error converting YAML to JSON: yaml: line 11: could not find expected ':'
+WSL2-Ubuntu24:kubernetes$ kubectl delete -f  ./4_namespace
+namespace "dev" deleted
+WSL2-Ubuntu24:kubernetes$ kubectl get namespace
+NAME              STATUS   AGE
+default           Active   3d17h
+kube-node-lease   Active   3d17h
+kube-public       Active   3d17h
+kube-system       Active   3d17h
+WSL2-Ubuntu24:kubernetes$
+
+1️⃣ 특정 네임스페이스 안의 리소스 전체 삭제
+WSL2-Ubuntu24:kubernetes$ kubectl delete all --all -n default
