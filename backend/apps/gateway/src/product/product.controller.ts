@@ -8,6 +8,11 @@ export class ProductController {
   @Post('sample')
   createSamples() {
     console.log('🎈gateway controller  createSamples');
+
+
+    
+
+
     return this.productService.createSamples();
   }
 }
