@@ -1,0 +1,88 @@
+WSL2-Ubuntu24:kubernetes$ kubectl get pods
+NAME                                READY   STATUS    RESTARTS   AGE
+nginx-deployment-64cf76d6d9-l5vp7   1/1     Running   0          55s
+WSL2-Ubuntu24:kubernetes$ kubectl describe deployment nginx
+Name:                   nginx-deployment
+Namespace:              default
+CreationTimestamp:      Sun, 28 Sep 2025 20:42:41 +0900
+Labels:                 <none>
+Annotations:            deployment.kubernetes.io/revision: 1
+Selector:               app=nginx
+Replicas:               1 desired | 1 updated | 1 total | 1 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  app=nginx
+  Containers:
+   nginx:
+    Image:         nginx
+    Port:          80/TCP
+    Host Port:     0/TCP
+    Readiness:     http-get http://:80/ delay=5s timeout=1s period=5s #success=1 #failure=3
+    Environment:   <none>
+    Mounts:        <none>
+  Volumes:         <none>
+  Node-Selectors:  <none>
+  Tolerations:     <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   nginx-deployment-64cf76d6d9 (1/1 replicas created)
+Events:
+  Type    Reason             Age   From                   Message
+  ----    ------             ----  ----                   -------
+  Normal  ScalingReplicaSet  93s   deployment-controller  Scaled up replica set nginx-deployment-64cf76d6d9 from 0 to 1
+
+
+
+================
+
+WSL2-Ubuntu24:kubernetes$ kubectl apply -f ./6_probe/liveness_probe.yml 
+deployment.apps/nginx-deployment created
+WSL2-Ubuntu24:kubernetes$ kubectl get deployment
+NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+nginx-deployment   1/1     1            1           15s
+WSL2-Ubuntu24:kubernetes$ kubectl describe deployment nginx
+Name:                   nginx-deployment
+Namespace:              default
+CreationTimestamp:      Sun, 28 Sep 2025 20:50:34 +0900
+Labels:                 <none>
+Annotations:            deployment.kubernetes.io/revision: 1
+Selector:               app=nginx
+Replicas:               1 desired | 1 updated | 1 total | 1 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  app=nginx
+  Containers:
+   nginx:
+    Image:         nginx
+    Port:          80/TCP
+    Host Port:     0/TCP
+    Liveness:      http-get http://:80/ delay=5s timeout=1s period=5s #success=1 #failure=3
+    Environment:   <none>
+    Mounts:        <none>
+  Volumes:         <none>
+  Node-Selectors:  <none>
+  Tolerations:     <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   nginx-deployment-7f99b758f7 (1/1 replicas created)
+Events:
+  Type    Reason             Age   From                   Message
+  ----    ------             ----  ----                   -------
+  Normal  ScalingReplicaSet  54s   deployment-controller  Scaled up replica set nginx-deployment-7f99b758f7 from 0 to 1
+
+WSL2-Ubuntu24:kubernetes$ kubectl get pods
+NAME                                READY   STATUS    RESTARTS   AGE
+nginx-deployment-7f99b758f7-8sk9h 
+
