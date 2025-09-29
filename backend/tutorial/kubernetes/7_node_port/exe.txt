@@ -1,0 +1,15 @@
+WSL2-Ubuntu24:kubernetes$ kubectl apply -f ./7_node_port/
+deployment.apps/nginx-deployment created
+service/nginx-service unchanged
+WSL2-Ubuntu24:kubernetes$ kubectl get deployment
+NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+nginx-deployment   3/3     3            3           19s
+WSL2-Ubuntu24:kubernetes$ kubectl get service
+NAME            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+kubernetes      ClusterIP   10.96.0.1        <none>        443/TCP        2d17h
+nginx-service   NodePort    10.107.110.146   <none>        80:30080/TCP   2m55s
+WSL2-Ubuntu24:kubernetes$ kubectl delete service nginx-service
+service "nginx-service" deleted
+WSL2-Ubuntu24:kubernetes$ kubectl get service
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   2d17h
