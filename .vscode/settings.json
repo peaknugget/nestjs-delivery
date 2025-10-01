@@ -1,7 +1,156 @@
 {
+  "workbench.iconTheme": "material-icon-theme",
+  "tabnine.experimentalAutoImports": true,
+  "editor.mouseWheelZoom": true,
+  "terminal.integrated.defaultProfile.windows": "Ubuntu (WSL)",
   "editor.formatOnSave": true,
-  "eslint.validate": ["typescript", "typescriptreact"],
+  "eslint.validate": [
+    "typescript",
+    "typescriptreact"
+  ],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
-  }
+  },
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": {
+      "source": "PowerShell",
+      "icon": "terminal-powershell"
+    },
+    "Command Prompt": {
+      "path": [
+        "${env:windir}\\Sysnative\\cmd.exe",
+        "${env:windir}\\System32\\cmd.exe"
+      ],
+      "args": [],
+      "icon": "terminal-cmd"
+    },
+    "Git Bash": {
+      "source": "Git Bash"
+    },
+    "PowerShell 7": {
+      "path": "C:\\Program Files\\PowerShell\\7\\pwsh.exe"
+    },
+    "Ubuntu (WSL)": {
+      "path": "C:\\WINDOWS\\System32\\wsl.exe",
+      "args": [
+        "-d",
+        "Ubuntu"
+      ]
+    }
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "git.openRepositoryInParentFolders": "never",
+  "bitoAI.appearance.fontSize (Match with IDE Font)": false,
+  "bitoAI.codeCompletion.enableAutoCompletion": false,
+  "bitoAI.codeCompletion.enableCommentToCode": true,
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "explorer.compactFolders": false,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "liveServer.settings.donotShowInfoMsg": true,
+  "javascript.updateImportsOnFileMove.enabled": "never",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "[sql]": {
+    "editor.defaultFormatter": "inferrinizzard.prettier-sql-vscode"
+  },
+  "explorer.fileNesting.patterns": {
+    "*.ts": "${capture}.js",
+    "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+    "*.jsx": "${capture}.js",
+    "*.tsx": "${capture}.ts",
+    "tsconfig.json": "tsconfig.*.json",
+    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb",
+    "*.sqlite": "${capture}.${extname}-*",
+    "*.db": "${capture}.${extname}-*",
+    "*.sqlite3": "${capture}.${extname}-*",
+    "*.db3": "${capture}.${extname}-*",
+    "*.sdb": "${capture}.${extname}-*",
+    "*.s3db": "${capture}.${extname}-*"
+  },
+  "files.associations": {
+    ".env*": "dotenv",
+    "*.env": "dotenv"
+  },
+  "settingsSync.ignoredSettings": [
+    "files.associations"
+  ],
+  "workbench.settings.applyToAllProfiles": [
+    "files.associations"
+  ],
+  "material-icon-theme.rootFolders.associations": {},
+  "workbench.editorAssociations": {
+    "*.copilotmd": "vscode.markdown.preview.editor",
+    "*.gs": "default"
+  },
+  "material-icon-theme.files.associations": {},
+  "[dotenv]": {},
+  "terminal.integrated.env.windows": {
+    "PATH": "C:\\Users\\brave\\.local\\bin;${env:PATH}"
+  },
+  "files.autoSave": "afterDelay",
+  "python.analysis.aiCodeActions": {
+    "enabled": true
+  },
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.autoFormatStrings": true,
+  "svg.preview.mode": "img",
+  "[dart]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.rulers": [
+      80
+    ],
+    "editor.selectionHighlight": false,
+    "editor.tabCompletion": "onlySnippets",
+    "editor.wordBasedSuggestions": "off"
+  },
+  "[dockercompose]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced",
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": false,
+      "strings": true
+    },
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[github-actions-workflow]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "yaml.schemas": {
+    "file:///c%3A/Users/brave/.vscode/extensions/continue.continue-1.2.6-win32-x64/config-yaml-schema.json": [
+      ".continue/**/*.yaml"
+    ]
+  },
+  "docker.extension.enableComposeLanguageServer": false,
+  "workbench.editor.empty.hint": "hidden",
+  // Codeium 한국어 설정
+  "codeium.enableCodeLens": true, // 코드 위에 제안 표시
+  "codeium.chat.language": "ko", // 채팅 언어를 한국어로
+  "codeium.completion.language": "ko", // 자동완성 제안 언어를 한국어로 (지원되는 경우)
+  // Codeium이 제안할 때 한국어로 설명하도록
+  "codeium.chat.defaultPrompt": "모든 설명과 주석, 코멘트를 한국어로 작성해줘.",
+  // 기타 추천 옵션
+  "editor.inlineSuggest.enabled": true,
+  "codeium.inlineSuggest.enable": true,
+  "codeium.enableLanguageServer": true
 }

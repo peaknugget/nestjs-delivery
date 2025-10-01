@@ -1,0 +1,128 @@
+WSL2-Ubuntu24:helm$ helm install nginx-server-dev ./codefactory
+NAME: nginx-server-dev
+LAST DEPLOYED: Wed Oct  1 10:28:27 2025
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+WSL2-Ubuntu24:helm$ helm status nginx-server-dev
+NAME: nginx-server-dev
+LAST DEPLOYED: Wed Oct  1 10:28:27 2025
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+WSL2-Ubuntu24:helm$ helm history nginx-server-dev
+REVISION        UPDATED                         STATUS          CHART                   APP VERSION     DESCRIPTION     
+1               Wed Oct  1 10:28:27 2025        deployed        codefactory-0.1.0       1.16.0          Install complete
+WSL2-Ubuntu24:helm$ kubectl get pods
+NAME                                           READY   STATUS    RESTARTS   AGE
+nginx-server-dev-deployment-85f6cd5f6d-b7wgg   1/1     Running   0          99s
+nginx-server-dev-deployment-85f6cd5f6d-lkx4g   1/1     Running   0          99s
+nginx-server-dev-deployment-85f6cd5f6d-w89bn   1/1     Running   0          99s
+
+WSL2-Ubuntu24:helm$ helm upgrade nginx-server-dev ./codefactory/
+Release "nginx-server-dev" has been upgraded. Happy Helming!
+NAME: nginx-server-dev
+LAST DEPLOYED: Wed Oct  1 10:32:22 2025
+NAMESPACE: default
+STATUS: deployed
+REVISION: 2
+TEST SUITE: None
+WSL2-Ubuntu24:helm$ 
+
+WSL2-Ubuntu24:helm$ kubectl get pods
+NAME                                           READY   STATUS    RESTARTS   AGE
+nginx-server-dev-deployment-85f6cd5f6d-b7wgg   1/1     Running   0          4m43s
+nginx-server-dev-deployment-85f6cd5f6d-lkx4g   1/1     Running   0          4m43s
+nginx-server-dev-deployment-85f6cd5f6d-w89bn   1/1     Running   0          4m43s
+
+
+WSL2-Ubuntu24:helm$ kubectl describe pod  nginx-server-dev-deployment-85f6cd5f6d-w89bn
+Name:             nginx-server-dev-deployment-85f6cd5f6d-w89bn
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             docker-desktop/192.168.65.3
+Start Time:       Wed, 01 Oct 2025 10:28:27 +0900
+Labels:           app=nginx-server-dev-pod
+                  pod-template-hash=85f6cd5f6d
+Annotations:      <none>
+Status:           Running
+IP:               10.1.0.123
+IPs:
+  IP:           10.1.0.123
+Controlled By:  ReplicaSet/nginx-server-dev-deployment-85f6cd5f6d
+Containers:
+  nginx-server-dev-container:
+    Container ID:   docker://77cad5985efb2de3f26b8ea514672dde5e9af239a660a8151ce359e286c77fa0
+    Image:          nginx:1.21
+    Image ID:       docker-pullable://nginx@sha256:2bcabc23b45489fb0885d69a06ba1d648aeda973fae7bb981bafbb884165e514
+    Port:           80/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Wed, 01 Oct 2025 10:28:44 +0900
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      ENVIRONMENT:  development
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-rrx59 (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True
+  Initialized                 True
+  Ready                       True
+  ContainersReady             True
+  PodScheduled                True
+Volumes:
+  kube-api-access-rrx59:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  5m50s  default-scheduler  Successfully assigned default/nginx-server-dev-deployment-85f6cd5f6d-w89bn to docker-desktop
+  Normal  Pulling    5m49s  kubelet            Pulling image "nginx:1.21"
+  Normal  Pulled     5m35s  kubelet            Successfully pulled image "nginx:1.21" in 13.863s (13.863s including waiting). Image size: 56746739 bytes.
+  Normal  Created    5m33s  kubelet            Created container: nginx-server-dev-container
+  Normal  Started    5m33s  kubelet            Started container nginx-server-dev-container
+
+
+WSL2-Ubuntu24:helm$ helm list
+NAME                    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART                   APP VERSION
+nginx-server-dev        default         2               2025-10-01 10:32:22.745079782 +0900 KST deployed        codefactory-0.1.0       1.16.0
+
+WSL2-Ubuntu24:helm$ helm history nginx-server-dev
+REVISION        UPDATED                         STATUS          CHART                   APP VERSION     DESCRIPTION     
+1               Wed Oct  1 10:28:27 2025        superseded      codefactory-0.1.0       1.16.0          Install complete
+2               Wed Oct  1 10:32:22 2025        deployed        codefactory-0.1.0       1.16.0          Upgrade complete
+
+WSL2-Ubuntu24:helm$ helm rollback nginx-server-dev 1
+Rollback was a success! Happy Helming!
+
+WSL2-Ubuntu24:helm$ helm history nginx-server-dev
+REVISION        UPDATED                         STATUS          CHART                   APP VERSION     DESCRIPTION     
+1               Wed Oct  1 10:28:27 2025        superseded      codefactory-0.1.0       1.16.0          Install complete
+2               Wed Oct  1 10:32:22 2025        superseded      codefactory-0.1.0       1.16.0          Upgrade complete
+3               Wed Oct  1 10:36:28 2025        deployed        codefactory-0.1.0       1.16.0          Rollback to 1
+
+
+WSL2-Ubuntu24:helm$ kubectl get pods
+NAME                                           READY   STATUS    RESTARTS   AGE
+nginx-server-dev-deployment-85f6cd5f6d-b7wgg   1/1     Running   0          8m56s
+nginx-server-dev-deployment-85f6cd5f6d-lkx4g   1/1     Running   0          8m56s
+nginx-server-dev-deployment-85f6cd5f6d-w89bn   1/1     Running   0          8m56s
+
+
+WSL2-Ubuntu24:helm$ helm uninstall nginx-server-dev
+release "nginx-server-dev" uninstalled
+WSL2-Ubuntu24:helm$ helm list
+NAME    NAMESPACE       REVISION        UPDATED STATUS  CHART   APP VERSION
