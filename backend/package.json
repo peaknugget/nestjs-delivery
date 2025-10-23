@@ -18,7 +18,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./apps/delivery/test/jest-e2e.json",
-    "proto:gen": "npx protoc --ts_proto_out=./libs/common/src/grpc --ts_proto_opt=nestJs=true,addGrpcMetadata=true -I ./proto ./proto/*.proto"
+    "proto:gen": "npx protoc --ts_proto_out=./libs/common/src/grpc --ts_proto_opt=nestJs=true,addGrpcMetadata=true -I ./proto ./proto/*.proto",
+    "docker-image:build": "docker compose -f ./docker-compose.image-test.yml up --build --force-recreate --remove-orphans"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.13.4",
