@@ -18,7 +18,7 @@ RUN pnpm i
 # 나머지 파일/폴더 복사해오기
 COPY apps/payment apps/payment
 COPY libs libs
-COPY proto /proto
+COPY proto ./proto 
 
 RUN pnpm build payment
 
@@ -34,6 +34,7 @@ WORKDIR /usr/src/app
 
 COPY package.json ./
 COPY pnpm-lock.yaml ./
+COPY proto ./proto 
 
 RUN npm install -g pnpm
 RUN pnpm install --prod

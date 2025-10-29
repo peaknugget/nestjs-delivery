@@ -18,7 +18,7 @@ RUN pnpm i
 # 나머지 파일/폴더 복사해오기
 COPY apps/product apps/product
 COPY libs libs
-COPY proto /proto
+COPY proto ./proto 
 
 RUN pnpm build product
 
@@ -39,6 +39,6 @@ RUN npm install -g pnpm
 RUN pnpm install --prod
 
 COPY --from=development /usr/src/app/dist ./dist
-COPY proto /proto
+COPY proto ./proto 
 
 CMD ["node", "dist/apps/product/main"]

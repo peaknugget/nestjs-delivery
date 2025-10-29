@@ -8,6 +8,7 @@ COPY package*.json ./
 COPY pnpm-lock.yaml ./
 COPY tsconfig.json tsconfig.json
 COPY nest-cli.json nest-cli.json
+COPY proto /usr/src/app/proto
 
 # PNPM 설치하기
 RUN npm i -g pnpm
@@ -18,7 +19,7 @@ RUN pnpm i
 # 나머지 파일/폴더 복사해오기
 COPY apps/user apps/user
 COPY libs libs
-COPY proto /proto
+COPY proto ./proto 
 
 RUN pnpm build user
 
@@ -34,11 +35,12 @@ WORKDIR /usr/src/app
 
 COPY package.json ./
 COPY pnpm-lock.yaml ./
+COPY proto ./proto 
 
 RUN npm install -g pnpm
 RUN pnpm install --prod
 
 COPY --from=development /usr/src/app/dist ./dist
-COPY proto /proto
+
 
 CMD ["node", "dist/apps/user/main"]

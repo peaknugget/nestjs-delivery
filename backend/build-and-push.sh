@@ -13,3 +13,8 @@ docker push test/fc-nestjs-order:latest
 docker push test/fc-nestjs-payment:latest
 docker push test/fc-nestjs-product:latest
 docker push test/fc-nestjs-user:latest
+
+
+
+#
+# sh build-and-push.sh

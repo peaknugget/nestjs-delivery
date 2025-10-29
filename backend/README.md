@@ -142,3 +142,46 @@ $ mau deploy
 *   [NestJS X (Twitter)](https://x.com/nestframework) | [LinkedIn](https://linkedin.com/company/nestjs)
 
 ---
+
+
+```bash
+# ✅ 로컬 환경용 Docker buildx 빌드 및 푸시 명령어
+# (GitHub Actions이 아닌 환경에서는 github.sha 변수를 제거해야 함)
+
+docker buildx build --platform linux/amd64,linux/arm64 \
+  -t braverokmc/fc-nestjs-gateway:latest \
+  -f ./apps/gateway/Dockerfile \
+  --target production \
+  --push .
+
+docker buildx build --platform linux/amd64,linux/arm64 \
+  -t braverokmc/fc-nestjs-notification:latest \
+  -f ./apps/notification/Dockerfile \
+  --target production \
+  --push .
+
+docker buildx build --platform linux/amd64,linux/arm64 \
+  -t braverokmc/fc-nestjs-order:latest \
+  -f ./apps/order/Dockerfile \
+  --target production \
+  --push .
+
+docker buildx build --platform linux/amd64,linux/arm64 \
+  -t braverokmc/fc-nestjs-payment:latest \
+  -f ./apps/payment/Dockerfile \
+  --target production \
+  --push .
+
+docker buildx build --platform linux/amd64,linux/arm64 \
+  -t braverokmc/fc-nestjs-product:latest \
+  -f ./apps/product/Dockerfile \
+  --target production \
+  --push .
+
+docker buildx build --platform linux/amd64,linux/arm64 \
+  -t braverokmc/fc-nestjs-user:latest \
+  -f ./apps/user/Dockerfile \
+  --target production \
+  --push .
+
+```

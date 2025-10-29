@@ -14,7 +14,7 @@ RUN npm i -g pnpm
 RUN pnpm i
 
 # 프로젝트 빌드에 필요한 폴더 이동하기
-COPY proto /proto
+COPY proto ./proto 
 COPY apps/gateway apps/gateway
 COPY libs libs
 
@@ -33,7 +33,7 @@ WORKDIR /usr/src/app
 
 COPY package.json ./
 COPY pnpm-lock.yaml ./
-COPY proto /proto
+COPY proto ./proto 
 
 RUN npm install -g pnpm
 RUN pnpm install --prod

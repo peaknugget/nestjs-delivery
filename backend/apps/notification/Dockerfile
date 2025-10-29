@@ -16,7 +16,7 @@ RUN npm i -g pnpm
 RUN pnpm i
 
 # 나머지 파일/폴더 복사해오기
-COPY proto /proto
+COPY proto ./proto 
 COPY apps/notification apps/notification
 COPY libs libs
 
@@ -33,7 +33,7 @@ ENV NODE_ENV=${NODE_ENV}
 
 WORKDIR /usr/src/app
 
-COPY proto /proto
+COPY proto ./proto 
 COPY package.json ./
 COPY pnpm-lock.yaml ./
 
